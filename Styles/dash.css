@@ -15,7 +15,7 @@
 }
 
 .dashboard-card {
-  background: #fff;
+  background: #252A3D;
   border-radius: 16px;
   padding: 2rem;
   width: 100%;
@@ -62,7 +62,7 @@
   width: 100%;
   padding: 13px;
   background: var(--trail-pine);
-  color: #fff;
+  color: var(--trail-bark);
   border: 1.5px solid transparent;
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
@@ -100,7 +100,7 @@
   height: 48px;
   border-radius: 50%;
   background: var(--trail-pine);
-  color: #fff;
+  color: #252A3D;
   font-family: 'Playfair Display', serif;
   font-size: 20px;
   display: flex;
@@ -182,7 +182,7 @@
   font-size: 14px;
   font-weight: 300;
   color: var(--trail-bark);
-  background: #fff;
+  background: #252A3D;
   outline: none;
   transition: border-color 0.2s;
   resize: vertical;
