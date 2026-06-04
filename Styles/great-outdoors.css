@@ -419,3 +419,22 @@ h1, h2, h3, p { color: #D4CCBF; }
 #comment-submit { color: #fff; }
 
 .section-label { color: #C4563A; }
+
+.photo-credit {
+  text-align: center;
+  font-size: 11px;
+  color: #bbb;
+  padding: 0.6rem 1rem;
+  /* background: var(--trail-cream); */
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.photo-credit a {
+  color: var(--trail-bark);
+  text-decoration: underline;
+}
+
+.photo-credit a:hover {
+  color: var(--trail-gold);
+}
