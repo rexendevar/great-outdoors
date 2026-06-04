@@ -7,14 +7,14 @@
 
 /* ── Variables ── */
 :root {
-  --trail-bark:  #3B2A1A;
-  --trail-pine:  #2D5016;
-  --trail-sage:  #6B8F4E;
-  --trail-stone: #8C7B6B;
-  --trail-sky:   #5B8DB8;
-  --trail-mist:  #E8EDE4;
-  --trail-cream: #F5F2ED;
-  --trail-gold:  #C8933A;
+  --trail-bark:  #151C3A;
+  --trail-pine:  #1E2B52;
+  --trail-sage:  #6B7AAB;
+  --trail-stone: #8B90B0;
+  --trail-sky:   #E8724A;
+  --trail-mist:  #F0EDE8;
+  --trail-cream: #FAF7F4;
+  --trail-gold:  #C4563A;
 }
 
 /* ── Reset ── */
@@ -41,6 +41,35 @@ a { text-decoration: none; }
   right: 0;
   opacity: 0.07;
   pointer-events: none;
+}
+
+/* \u2500\u2500 Shared hero image (used in page headers across all pages) \u2500\u2500 */
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(21, 28, 58, 0.62);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* make sure any content inside a header sits above the image */
+.trail-header-inner,
+.page-header-inner,
+.auth-wrapper .card,
+.cta-banner-inner {
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Shared gradient stripe (top of cards / headers) ── */
