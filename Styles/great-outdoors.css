@@ -7,14 +7,14 @@
 
 /* ── Variables ── */
 :root {
-  --trail-bark:  #3B2A1A;
-  --trail-pine:  #2D5016;
-  --trail-sage:  #6B8F4E;
-  --trail-stone: #8C7B6B;
-  --trail-sky:   #5B8DB8;
-  --trail-mist:  #E8EDE4;
-  --trail-cream: #F5F2ED;
-  --trail-gold:  #C8933A;
+  --trail-bark:  #E8E0D4;
+  --trail-pine:  #1E2B52;
+  --trail-sage:  #6B7AAB;
+  --trail-stone: #8B90B0;
+  --trail-sky:   #E8724A;
+  --trail-mist:  #12172E;
+  --trail-cream: #1A2040;
+  --trail-gold:  #C4563A;
 }
 
 /* ── Reset ── */
@@ -43,6 +43,35 @@ a { text-decoration: none; }
   pointer-events: none;
 }
 
+/* \u2500\u2500 Shared hero image (used in page headers across all pages) \u2500\u2500 */
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(21, 28, 58, 0.62);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* make sure any content inside a header sits above the image */
+.trail-header-inner,
+.page-header-inner,
+.auth-wrapper .card,
+.cta-banner-inner {
+  position: relative;
+  z-index: 1;
+}
+
 /* ── Shared gradient stripe (top of cards / headers) ── */
 .card-stripe {
   position: absolute;
@@ -59,7 +88,7 @@ a { text-decoration: none; }
   gap: 8px;
   padding: 12px 28px;
   background: var(--trail-pine);
-  color: #fff;
+  color: #252A3D;
   border: 1.5px solid transparent;
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
@@ -70,11 +99,11 @@ a { text-decoration: none; }
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
 }
-.submit-btn:hover  { background: #1e3a0d; color: #fff; }
+.submit-btn:hover  { background: #1e3a0d; color: #252A3D; }
 .submit-btn:active { transform: scale(0.98); }
 
 .submit-btn--secondary {
-  background: #fff;
+  background: #252A3D;
   color: var(--trail-bark);
   border-color: #E0DDD8;
 }
@@ -101,7 +130,7 @@ a { text-decoration: none; }
 
 /* ── Shared stat item (used in auth footer + dashboard) ── */
 .stat-item  { text-align: center; display: block; }
-.stat-val   { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--trail-pine); display: block; }
+.stat-val   { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--trail-bark); display: block; }
 .stat-lbl   { display: block; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--trail-stone); font-weight: 700; font-family: 'Lato', sans-serif; }
 
 /* ── Loading spinner ── */
@@ -151,7 +180,7 @@ a { text-decoration: none; }
   font-family: 'Playfair Display', serif;
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
+  color: #252A3D;
   text-decoration: none;
   letter-spacing: 0.02em;
 }
@@ -182,14 +211,32 @@ a { text-decoration: none; }
   transition: background 0.15s, color 0.15s;
 }
 
+
+
 .site-nav-link:hover {
   background: rgba(255,255,255,0.12);
-  color: #fff;
+  color: #252A3D;
+}
+
+.site-nav-brand {
+  color: #D4CCBF;
+}
+
+.site-nav-brand svg {
+  stroke: #D4CCBF;
+}
+
+.site-nav-link {
+  color: #8B90B0;
+}
+
+.site-nav-link:hover {
+  color: #D4CCBF;
 }
 
 .site-nav-link.active {
   background: rgba(255,255,255,0.15);
-  color: #fff;
+  color: #252A3D;
 }
 
 @media (max-width: 560px) {
@@ -198,3 +245,177 @@ a { text-decoration: none; }
   .site-nav-link span  { display: none; }
   .site-nav-link { padding: 6px 8px; }
 }
+
+html, body {
+  background: #1C1F2E;
+  color: #D4CCBF;
+}
+
+.trail-card,
+.info-card,
+.form-card,
+.card,
+.dashboard-card {
+  background: #252A3D;
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+
+.stat-strip,
+.stats-bar {
+  background: #1F2335;
+  border-color: rgba(255,255,255,0.06);
+}
+
+.stat-strip-item,
+.stats-bar-item {
+  border-color: rgba(255,255,255,0.06);
+}
+
+.stat-strip-val,
+.stats-bar-val { color: #C4563A; }
+.stat-strip-lbl,
+.stats-bar-lbl { color: #8B90B0; }
+
+.info-row { border-color: rgba(255,255,255,0.05); }
+.info-row-label { color: #8B90B0; }
+.info-row-value { color: #D4CCBF; }
+
+.field input,
+.field select,
+.field textarea,
+.field-input,
+#comment-input,
+.comment-edit-area {
+  background: #161926;
+  border-color: rgba(255,255,255,0.09);
+  color: #D4CCBF;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.field-input:focus,
+#comment-input:focus,
+.comment-edit-area:focus {
+  border-color: #6B7AAB;
+  background: #1C1F2E;
+}
+
+.field input::placeholder,
+.field-input::placeholder,
+#comment-input::placeholder { color: rgba(255,255,255,0.2); }
+
+.field input:valid,
+.field select:valid { border-color: rgba(107,122,171,0.4); }
+
+.comment-item {
+  background: #2D3148;
+  border-color: rgba(255,255,255,0.09);
+  box-shadow: none;
+}
+.comment-meta  { color: #A0A6C4; }
+.comment-body  { color: #D4CCBF; }
+.comment-btn   { color: #7A80A0; }
+.comment-btn:hover { color: #D4CCBF; }
+.comment-btn.delete:hover { color: #C4563A; }
+
+.comment-edited-badge {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.08);
+  color: #7A80A0;
+}
+
+.tag, .badge {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.08);
+  color: #A0A6C4;
+}
+
+.skeleton-img,
+.skeleton-line {
+  background: linear-gradient(90deg, #252A3D 25%, #2D3148 50%, #252A3D 75%);
+  background-size: 200% 100%;
+}
+
+.trail-card-image-placeholder { background: #1F2335; }
+
+.section-heading { color: #D4CCBF; }
+.section-link    { color: #6B7AAB; }
+
+.home-footer {
+  background: #13161F;
+  color: rgba(255,255,255,0.2);
+}
+
+.cta-banner { background: #1F2335; }
+.cta-banner h2 { color: #D4CCBF; }
+.cta-banner p  { color: rgba(255,255,255,0.45); }
+
+.info-box {
+  background: #1C1F2E;
+  border-color: rgba(255,255,255,0.07);
+}
+.info-box h3 { color: #D4CCBF; }
+.info-box p  { color: #8B90B0; }
+
+.comments-section  { border-color: rgba(255,255,255,0.07); }
+.trail-card-stats  { border-color: rgba(255,255,255,0.07); }
+.trail-stats       { border-color: rgba(255,255,255,0.07); }
+.dashboard-stats   { border-color: rgba(255,255,255,0.07); }
+
+.trail-card-name     { color: #D4CCBF; }
+.trail-card-type     { color: #C4563A; }
+.trail-card-stat-val { color: #6B7AAB; }
+.trail-card-stat-lbl { color: #7A80A0; }
+
+.diff-easy { background: rgba(107,122,171,0.12); color: #8B9AC4; }
+.diff-mod  { background: rgba(196,86,58,0.12);   color: #C4856A; }
+.diff-hard { background: rgba(160,48,48,0.15);    color: #C47070; }
+
+#last-edited   { color: #7A80A0; }
+#description   { color: #C4BCAF; }
+
+.pip { background: rgba(255,255,255,0.08); }
+
+.submit-btn, #comment-submit, .logout-btn {
+  background: #C4563A;
+  color: #252A3D;
+}
+.submit-btn:hover, #comment-submit:hover, .logout-btn:hover {
+  background: #A8452C;
+  color: #252A3D;
+}
+
+.hero-btn--primary {
+  background: #C4563A;
+  color: #252A3D;
+}
+.hero-btn--primary:hover { background: #A8452C; color: #252A3D; }
+
+.hero-btn--ghost {
+  background: rgba(255,255,255,0.08);
+  color: #D4CCBF;
+  border-color: rgba(255,255,255,0.2);
+}
+.hero-btn--ghost:hover { background: rgba(255,255,255,0.14); color: #D4CCBF; }
+
+/* Text visibility fixes */
+#name, #org, #description, #last-edited,
+#type, #start-elev, #hours, #location,
+.section-label, .trail-card-name,
+.comments-section h3,
+h1, h2, h3, p { color: #D4CCBF; }
+
+.stat-strip-val, .stats-bar-val { color: #C4563A; }
+.stat-strip-lbl, .stats-bar-lbl { color: #8B90B0; }
+
+.info-row-value { color: #D4CCBF; }
+.info-row-label { color: #8B90B0; }
+
+.comment-body { color: #D4CCBF; }
+.comment-meta { color: #A0A6C4; }
+
+#comment-submit { color: #fff; }
+
+.section-label { color: #C4563A; }

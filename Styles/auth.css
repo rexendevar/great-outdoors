@@ -28,7 +28,7 @@
 
 .tab-bar {
   display: flex;
-  background: #fff;
+  background: #252A3D;
   border-radius: 40px;
   padding: 4px;
   gap: 2px;
@@ -50,10 +50,10 @@
   color: var(--trail-stone);
   transition: background 0.25s, color 0.25s;
 }
-.tab-btn.active { background: var(--trail-pine); color: #fff; }
+.tab-btn.active { background: var(--trail-pine); color: #252A3D; }
 
 .card {
-  background: #fff;
+  background: #252A3D;
   border-radius: 16px;
   padding: 2rem 2rem 1.75rem;
   width: 100%;
@@ -130,7 +130,7 @@
   transition: border-color 0.2s, background 0.2s;
   outline: none;
 }
-.field-input:focus         { border-color: var(--trail-pine); background: #fff; }
+.field-input:focus         { border-color: var(--trail-pine); background: #252A3D; }
 .field-input::placeholder  { color: #B5AFA8; }
 
 .forgot-link {

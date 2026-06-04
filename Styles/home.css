@@ -3,6 +3,8 @@
    ============================================ */
 
 /* ── Hero ── */
+/* Replace these existing rules: */
+
 .hero {
   position: relative;
   width: 100%;
@@ -14,22 +16,23 @@
   text-align: center;
   padding: 5rem 2rem 8rem;
   overflow: hidden;
-  background: var(--trail-pine);
+  background: var(--trail-pine); /* fallback if image fails */
 }
 
-.hero-mountains {
+.hero-img {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  opacity: 0.13;
-  pointer-events: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
 }
 
 .hero-gradient {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 110%, rgba(200,147,58,0.18) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(107,143,78,0.12) 0%, transparent 60%);
+  background: rgba(21, 28, 58, 0.55);
   pointer-events: none;
 }
 
@@ -62,7 +65,7 @@
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.8rem, 8vw, 5.5rem);
   font-weight: 600;
-  color: #fff;
+  color: #252A3D;
   line-height: 1.08;
   letter-spacing: -0.01em;
   margin-bottom: 1.25rem;
@@ -124,10 +127,10 @@
 
 .hero-btn--ghost {
   background: rgba(255,255,255,0.1);
-  color: #fff;
+  color: #252A3D;
   border: 1.5px solid rgba(255,255,255,0.25);
 }
-.hero-btn--ghost:hover { background: rgba(255,255,255,0.18); color: #fff; }
+.hero-btn--ghost:hover { background: rgba(255,255,255,0.18); color: #252A3D; }
 
 .hero-stripe {
   position: absolute;
@@ -138,7 +141,7 @@
 
 /* ── Stats bar ── */
 .stats-bar {
-  background: #fff;
+  background: #252A3D;
   border-bottom: 1px solid #E8E5E0;
   display: flex;
   justify-content: center;
@@ -159,7 +162,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.7rem;
   font-weight: 600;
-  color: var(--trail-pine);
+  color: var(--trail-bark);
   line-height: 1;
 }
 
@@ -201,7 +204,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--trail-pine);
+  color: var(--trail-gold);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -218,7 +221,7 @@
 }
 
 .trail-card {
-  background: #fff;
+  background: #252A3D;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 16px rgba(59,42,26,0.09);
@@ -300,7 +303,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--trail-pine);
+  color: var(--trail-bark);
   line-height: 1;
 }
 
@@ -330,7 +333,7 @@
 
 /* ── Cards loading skeleton ── */
 .trail-card-skeleton {
-  background: #fff;
+  background: #252A3D;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 16px rgba(59,42,26,0.06);
@@ -390,7 +393,7 @@
   font-family: 'Playfair Display', serif;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
   font-weight: 600;
-  color: #fff;
+  color: #252A3D;
   margin-bottom: 0.75rem;
   line-height: 1.2;
 }
@@ -398,7 +401,7 @@
 .cta-banner p {
   font-size: 15px;
   font-weight: 300;
-  color: rgba(255,255,255,0.6);
+  color: rgba(150,150,150,0.6);
   margin-bottom: 2rem;
   line-height: 1.7;
 }
@@ -412,11 +415,11 @@
 
 /* ── Footer ── */
 .home-footer {
-  background: var(--trail-bark);
+  background: rgba(0,0,0,0);
   padding: 1.5rem 2rem;
   text-align: center;
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  color: #bbb;
   font-family: 'Lato', sans-serif;
   letter-spacing: 0.06em;
 }
@@ -424,4 +427,16 @@
 @media (max-width: 600px) {
   .stats-bar-item { padding: 0.9rem 1.5rem; }
   .hero { min-height: 70vh; padding: 4rem 1.25rem 6rem; }
+}
+
+
+.hero-title { color: #bbb !important; }
+.hero-sub    { color: rgba(255,255,255,0.75) !important; }
+
+.cta-banner {
+  background: #1F2335;
+}
+
+.cta-banner-inner {
+  background: transparent;
 }

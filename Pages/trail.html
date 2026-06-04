@@ -26,10 +26,19 @@
   <div id="content" style="display:none">
 
     <!-- Header -->
-    <div class="trail-header">
+    <!-- <div class="trail-header">
       <svg class="header-mountains" viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
         <polygon points="0,120 120,30 240,80 380,10 520,60 660,20 800,70 800,120" fill="#fff"/>
       </svg>
+      <div class="trail-header-inner">
+        <a id="edit-trail-btn"><i class="ti ti-edit"></i> Edit Trail</a>
+        <div id="name"></div>
+        <p id="org"></p>
+      </div>
+    </div> -->
+    <div class="trail-header">
+      <img class="header-hero-img" src="../Images/pilchuk.jpg" alt="Mountain at sunset">
+      <div class="header-hero-overlay"></div>
       <div class="trail-header-inner">
         <a id="edit-trail-btn"><i class="ti ti-edit"></i> Edit Trail</a>
         <div id="name"></div>
@@ -121,7 +130,7 @@
         <div id="comments"></div>
         <div id="comment-form" style="display:none">
           <textarea id="comment-input" rows="3" maxlength="1000" placeholder="Write a comment…"></textarea>
-          <button id="comment-submit"><i class="ti ti-send"></i> Post</button>
+          <button id="comment-submit" style="color:var(--trail-gold)"><i class="ti ti-send"></i> Post</button>
         </div>
         <p id="comment-login">You must be <a href="login.html">logged in</a> to comment.</p>
       </div>

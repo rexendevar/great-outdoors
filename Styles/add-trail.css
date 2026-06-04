@@ -33,7 +33,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: 600;
-  color: #fff;
+  color: #252A3D;
   line-height: 1.15;
 }
 .page-header p {
@@ -59,7 +59,7 @@
 }
 
 .form-card {
-  background: #fff;
+  background: #252A3D;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 16px rgba(59,42,26,0.09);
@@ -67,7 +67,7 @@
 }
 .form-card-header {
   background: var(--trail-pine);
-  color: #fff;
+  color: var(--trail-bark);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -114,7 +114,7 @@
 }
 .field input:focus,
 .field select:focus,
-.field textarea:focus  { border-color: var(--trail-pine); background: #fff; }
+.field textarea:focus  { border-color: var(--trail-pine); background: #252A3D; }
 .field input:invalid,
 .field select:invalid,
 .field textarea:invalid { border-color: #c0392b; }
