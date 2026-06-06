@@ -207,6 +207,64 @@
 .pip     { width: 14px; height: 5px; border-radius: 2px; background: #E8E5E0; }
 .pip.on  { background: var(--trail-gold); }
 
+.hiked-trail-box {
+  grid-column: 1 / -1;
+  background: #252A3D;
+  border: 1px solid #E0DDD8;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 1px 8px rgba(59,42,26,0.08);
+}
+
+.hiked-trail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: var(--trail-pine);
+  color: var(--trail-gold);
+  border: none;
+  border-radius: 8px;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s, transform 0.1s;
+}
+
+.hiked-trail-btn:hover {
+  background: #1e3a0d;
+  transform: translateY(-1px);
+}
+
+.hiked-trail-btn.logged-out {
+  background: #777;
+  color: #ddd;
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.hiked-trail-btn.completed {
+  background: var(--trail-gold);
+  color: #252A3D;
+}
+
+.hiked-trail-help {
+  font-size: 12px;
+  color: var(--trail-stone);
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 680px) {
+  .hiked-trail-box {
+    grid-column: 1;
+  }
+}
+
 .comments-section {
   grid-column: 1 / -1;
   border-top: 1px dashed #C8C4BE;
