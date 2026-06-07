@@ -429,12 +429,9 @@ window.saveProfile = async function () {
 
 // LOGOUT
 window.logout = function () {
-
-  signOut(auth)
-    .then(() => {
-      alert("Logged Out");
-      window.location.href = "login.html";
-    });
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  });
 };
 
 
