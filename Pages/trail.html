@@ -295,8 +295,9 @@
 
             weatherDiv.innerHTML = "";
             days.time.forEach((dateStr, i) => {
-              const d    = new Date(dateStr);
-              const day  = d.toLocaleDateString("en-US", { weekday: "short" });
+              const [year, month, dayNum] = dateStr.split("-").map(Number);
+              const d = new Date(year, month - 1, dayNum);
+              const dayLabel = d.toLocaleDateString("en-US", { weekday: "short" });
               const icon = codes[days.weathercode[i]] ?? "🌡️";
               const hi   = Math.round(days.temperature_2m_max[i]);
               const lo   = Math.round(days.temperature_2m_min[i]);
@@ -305,7 +306,7 @@
               const row = document.createElement("div");
               row.className = "weather-row";
               row.innerHTML = `
-                <span class="weather-day">${day}</span>
+                <span class="weather-day">${dayLabel}</span>
                 <span class="weather-icon">${icon}</span>
                 <div class="weather-temps"><b>${hi}°</b><span>${lo}°</span></div>
                 <span class="weather-rain">${rain > 0 ? `${rain.toFixed(1)}mm` : ""}</span>
