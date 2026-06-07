@@ -18,3 +18,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GREAT_OUTDOORS_USER_ACCOUNTS }}
           projectId: great-outdoors-user-accounts
+          target: great-outdoors
