@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "./",
+    "target": "great-outdoors",
     "ignore": [
       "firebase.json",
       "**/.*",

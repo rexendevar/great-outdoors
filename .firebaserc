@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "great-outdoors-user-accounts"
-  }
+  },
+  "targets": {
+    "great-outdoors-user-accounts": {
+      "hosting": {
+        "great-outdoors": [
+          "great-outdoors"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
