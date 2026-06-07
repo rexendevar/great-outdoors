@@ -316,11 +316,13 @@
       return { loop: "Loop", out_and_back: "Out & Back", point_to_point: "Point to Point", lollipop: "Lollipop" }[t] ?? t;
     }
 
-    function renderEditButton(id, user) {
+    function renderEditButton(id, user, isBanned) {
       const btn = document.getElementById("edit-trail-btn");
-      btn.href  = user
-        ? `add-trail.html?edit=${id}`
-        : `login.html?redirect=trail.html?id=${id}`;
+      if (!user || isBanned) {
+        btn.style.visibility = "hidden";
+        return;
+      }
+      btn.href = `add-trail.html?edit=${id}`;
     }
 
     async function renderHikedButton(user, trailId, trailData) {
@@ -487,7 +489,7 @@
         });
 
         modActions.appendChild(modDelete);
-        commentInner.appendChild(modActions);
+        div.appendChild(modActions);
       }
 
       // div.appendChild(avatar);
@@ -495,8 +497,8 @@
       commentsDiv.appendChild(div);
     }
 
-    function renderCommentForm(user, db, trailId, commentsDiv, q) {
-      if (user) {
+    function renderCommentForm(user, db, trailId, commentsDiv, q, isBanned) {
+      if (user && !isBanned) {
         document.getElementById("comment-form").style.display  = "";
         document.getElementById("comment-login").style.display = "none";
 
@@ -535,6 +537,10 @@
           // newSnap.forEach(d => renderComment(d, user, commentsDiv));
         });
 
+      } else if (user && isBanned) {
+        document.getElementById("comment-form").style.display  = "none";
+        document.getElementById("comment-login").style.display = "";
+        document.getElementById("comment-login").textContent   = "Your account has been banned.";
       } else {
         document.getElementById("comment-form").style.display  = "none";
         document.getElementById("comment-login").style.display = "";

@@ -54,7 +54,7 @@
 
   <script type="module">
     import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, getDocs, orderBy, query }
+    import { getFirestore, doc, getDoc, setDoc, collection, getDocs, orderBy, query, serverTimestamp }
                                 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import { firebaseConfig }   from "../Scripts/great_outdoors.js";
     import { isModerator } from "../Scripts/great_outdoors.js";
@@ -103,7 +103,8 @@
         if (isBanned) {
           const badge = document.createElement("div");
           badge.className   = "banned-badge";
-          badge.textContent = "⛔ Banned";
+          badge.textContent = "(banned)";
+          badge.style = "color:var(--trail-gold)";
           document.getElementById("profile-username").after(badge);
         }
 
@@ -142,7 +143,8 @@
               if (!document.querySelector(".banned-badge")) {
                 const badge = document.createElement("div");
                 badge.className   = "banned-badge";
-                badge.textContent = "⛔ Banned";
+                badge.textContent = "(banned)";
+                badge.style = "color:var(--trail-gold)";
                 document.getElementById("profile-username").after(badge);
               }
             }
