@@ -393,7 +393,6 @@ window.saveProfile = async function () {
   const username  = document.getElementById("profile-username").value.trim();
   const bio = document.getElementById("profile-bio").value.trim();
   const avatar = document.getElementById("profile-avatar").value.trim();
-  // const instagram = document.getElementById("profile-instagram").value.trim();
 
   try {
 
@@ -401,7 +400,6 @@ window.saveProfile = async function () {
       username: username,
       bio: bio,
       avatar: avatar,
-      // instagram: instagram,
       updated_at: serverTimestamp()
     });
 
@@ -479,7 +477,6 @@ onAuthStateChanged(auth, async (user) => {
       const usernameInput  = document.getElementById("profile-username");
       const bioInput       = document.getElementById("profile-bio");
       const avatarInput    = document.getElementById("profile-avatar");
-      // const instagramInput = document.getElementById("profile-instagram");
 
       if (u.username)  { usernameInput.value       = u.username;  }
       else             { usernameInput.placeholder  = "Not set yet — add a username"; }
@@ -489,9 +486,6 @@ onAuthStateChanged(auth, async (user) => {
 
       if (u.avatar)    { avatarInput.value           = u.avatar;   }
       else             { avatarInput.placeholder      = "Paste an image URL…"; }
-
-      // if (u.instagram) { instagramInput.value        = u.instagram;}
-      // else             { instagramInput.placeholder   = "https://instagram.com/yourhandle"; }
     }
   }
 });
