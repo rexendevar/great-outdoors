@@ -262,6 +262,60 @@
           const bar = document.getElementById("location-label");
           if (bar) bar.textContent = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
         });
+
+
+                // Weather
+        const weatherCard = document.createElement("div");
+        weatherCard.className = "info-row";
+        weatherCard.id = "row-weather";
+        weatherCard.style.display = "flex";
+        weatherCard.style.flexDirection = "column";
+        weatherCard.style.alignItems = "stretch";
+        weatherCard.style.padding = "0";
+
+        const weatherDiv = document.createElement("div");
+        weatherDiv.id = "trail-weather";
+        weatherDiv.className = "trail-weather";
+        weatherDiv.textContent = "Loading forecast…";
+        weatherCard.appendChild(weatherDiv);
+        document.querySelector(".info-card").appendChild(weatherCard);
+
+        fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode&timezone=auto&forecast_days=7&temperature_unit=fahrenheit`)
+          .then(r => r.json())
+          .then(data => {
+            const days = data.daily;
+            const codes = {
+              0:"☀️",1:"🌤️",2:"⛅",3:"☁️",
+              45:"🌫️",48:"🌫️",
+              51:"🌦️",53:"🌦️",55:"🌧️",
+              61:"🌧️",63:"🌧️",65:"🌧️",
+              71:"🌨️",73:"🌨️",75:"🌨️",
+              77:"🌨️",80:"🌦️",81:"🌧️",82:"⛈️",
+              95:"⛈️",96:"⛈️",99:"⛈️",
+            };
+
+            weatherDiv.innerHTML = "";
+            days.time.forEach((dateStr, i) => {
+              const [year, month, dayNum] = dateStr.split("-").map(Number);
+              const d = new Date(year, month - 1, dayNum);
+              const dayLabel = d.toLocaleDateString("en-US", { weekday: "short" });
+              const icon = codes[days.weathercode[i]] ?? "🌡️";
+              const hi   = Math.round(days.temperature_2m_max[i]);
+              const lo   = Math.round(days.temperature_2m_min[i]);
+              const rain = days.precipitation_sum[i];
+
+              const row = document.createElement("div");
+              row.className = "weather-row";
+              row.innerHTML = `
+                <span class="weather-day">${dayLabel}</span>
+                <span class="weather-icon">${icon}</span>
+                <div class="weather-temps"><b>${hi}°</b><span>${lo}°</span></div>
+                <span class="weather-rain">${rain > 0 ? `${rain.toFixed(1)}mm` : ""}</span>
+              `;
+              weatherDiv.appendChild(row);
+            });
+          })
+          .catch(() => { weatherDiv.textContent = "Forecast unavailable."; });
       }
 
       // Description
