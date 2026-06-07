@@ -23,12 +23,12 @@
   opacity: 0.08;
   pointer-events: none;
 }
-/* .trail-header-inner {
+.trail-header-inner {
   max-width: 900px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
-} */
+}
 
 .trail-header {
   position: relative;
