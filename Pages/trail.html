@@ -472,6 +472,10 @@
       } else {
         avatar.textContent = (c.username ?? c.email ?? "?").charAt(0).toUpperCase();
       }
+      avatar.style.cursor = "pointer";
+      avatar.addEventListener("click", () => {
+        window.location.href = `user.html?uid=${c.uid}`;
+      });
 
       const commentInner = document.createElement("div");
       commentInner.className = "comment-inner";
