@@ -405,11 +405,10 @@
       meta.appendChild(usernameLink);
       if (commentBanned) {
         const bannedSpan = document.createElement("span");
-        bannedSpan.textContent = " (banned)";
+        bannedSpan.className = "comment-edited-badge";
+        bannedSpan.textContent = "banned";
+        bannedSpan.style.borderColor = "var(--trail-gold)";
         bannedSpan.style.color = "var(--trail-gold)";
-        bannedSpan.style.fontSize = "10px";
-        bannedSpan.style.fontWeight = "700";
-        bannedSpan.style.letterSpacing = "0.06em";
         meta.appendChild(bannedSpan);
       }
       meta.appendChild(document.createTextNode(` · ${date}`));
