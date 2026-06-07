@@ -8,13 +8,13 @@
 /* ── Variables ── */
 :root {
   --trail-cloud:  #E8E0D4;
+  --trail-fog:    #8B90B0;
+  --trail-mist:   #6B7AAB;
   --trail-shade:  #1E2B52;
-  --trail-mist:  #6B7AAB;
-  --trail-fog: #8B90B0;
-  --trail-dusk:   #E8724A;
+  --trail-night:  #1A2040;
   --trail-sleep:  #12172E;
-  --trail-night: #1A2040;
-  --trail-ray:  #C4563A;
+  --trail-dusk:   #E8724A;
+  --trail-ray:    #C4563A;
 }
 
 /* ── Reset ── */
