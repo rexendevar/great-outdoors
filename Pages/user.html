@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile</title>
+  <link rel="stylesheet" href="../Styles/great-outdoors.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    .profile-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    /* ── Avatar + header ── */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--trail-pine);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fff;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .profile-info {}
+
+    .profile-username {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--trail-bark);
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+
+    .profile-bio {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--trail-stone);
+      line-height: 1.65;
+      max-width: 480px;
+    }
+
+    /* ── Section ── */
+    .profile-section {
+      margin-top: 2rem;
+      border-top: 1px dashed rgba(255,255,255,0.08);
+      padding-top: 1.5rem;
+    }
+
+    .profile-section-heading {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--trail-gold);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* ── Hiked trails list ── */
+    .hiked-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .hiked-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #252A3D;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .hiked-item:hover { border-color: var(--trail-gold); }
+
+    .hiked-item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--trail-bark);
+    }
+
+    .hiked-item-date {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--trail-stone);
+    }
+
+    .profile-empty {
+      font-size: 13px;
+      color: var(--trail-stone);
+      font-style: italic;
+    }
+
+    /* ── Loading / error ── */
+    .status-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50vh;
+      flex-direction: column;
+      gap: 1rem;
+      color: var(--trail-stone);
+      font-size: 14px;
+    }
+
+    @media (max-width: 500px) {
+      .profile-header { flex-direction: column; align-items: flex-start; }
+      .profile-avatar { width: 64px; height: 64px; font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav-container"></div>
+
+  <div id="status" class="status-screen">
+    <div class="spinner"></div>
+    <span>Loading profile…</span>
+  </div>
+
+  <div id="content" style="display:none">
+    <div class="profile-wrapper">
+
+      <!-- Header -->
+      <div class="profile-header">
+        <div class="profile-avatar" id="profile-avatar"></div>
+        <div class="profile-info">
+          <div class="profile-username" id="profile-username"></div>
+          <p class="profile-bio" id="profile-bio"></p>
+        </div>
+      </div>
+
+      <!-- Hiked trails -->
+      <div class="profile-section">
+        <span class="profile-section-heading">Trails Hiked</span>
+        <div class="hiked-list" id="hiked-list"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, getDocs, orderBy, query }
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { firebaseConfig }   from "../Scripts/great_outdoors.js";
+
+    const db = getFirestore(initializeApp(firebaseConfig));
+
+    function showError(msg) {
+      document.getElementById("status").innerHTML = `<span>${msg}</span>`;
+    }
+
+    const uid = new URLSearchParams(window.location.search).get("uid");
+
+    if (!uid) {
+      showError("No user specified.");
+    } else {
+      const userSnap = await getDoc(doc(db, "users", uid));
+
+      if (!userSnap.exists()) {
+        showError("User not found.");
+      } else {
+        const u = userSnap.data();
+
+        document.title = `${u.username} — Great Outdoors`;
+
+        // Avatar
+        const avatarEl = document.getElementById("profile-avatar");
+        if (u.avatar) {
+          const img = document.createElement("img");
+          img.src = u.avatar;
+          img.alt = u.username;
+          avatarEl.appendChild(img);
+        } else {
+          avatarEl.textContent = (u.username ?? "?").charAt(0).toUpperCase();
+        }
+
+        // Username + bio
+        document.getElementById("profile-username").textContent = u.username ?? "Unknown";
+        document.getElementById("profile-bio").textContent      = u.bio ?? "";
+
+        // Hiked trails
+        const hikedSnap = await getDocs(
+          query(collection(db, "users", uid, "hikedTrails"), orderBy("marked_at", "desc"))
+        );
+
+        const list = document.getElementById("hiked-list");
+
+        if (hikedSnap.empty) {
+          list.innerHTML = `<p class="profile-empty">No trails hiked yet.</p>`;
+        } else {
+          hikedSnap.forEach(d => {
+            const h    = d.data();
+            const date = h.marked_at?.toDate().toLocaleDateString() ?? "";
+
+            const a = document.createElement("a");
+            a.className = "hiked-item";
+            a.href      = `trail.html?id=${h.trail_id}`;
+
+            const name = document.createElement("span");
+            name.className   = "hiked-item-name";
+            name.textContent = h.trail_name ?? "Unknown Trail";
+
+            const dateEl = document.createElement("span");
+            dateEl.className   = "hiked-item-date";
+            dateEl.textContent = date;
+
+            a.appendChild(name);
+            a.appendChild(dateEl);
+            list.appendChild(a);
+          });
+        }
+
+        document.getElementById("status").style.display  = "none";
+        document.getElementById("content").style.display = "";
+      }
+    }
+  </script>
+</body>
+</html>

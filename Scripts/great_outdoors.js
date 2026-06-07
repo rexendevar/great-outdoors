@@ -448,13 +448,54 @@ onAuthStateChanged(auth, async (user) => {
   if (window.location.pathname.includes("dashboard.html") && user) {
     document.getElementById("user-email").textContent = user.email ?? "";
 
-    // Fetch username from Firestore
     const userDoc = await getDoc(doc(db, "users", user.uid));
-    const username = userDoc.exists() ? userDoc.data().username : user.email.split("@")[0];
+    if (userDoc.exists()) {
+      const u = userDoc.data();
+      const username = u.username ?? user.email.split("@")[0];
 
-    document.getElementById("greeting").textContent = `Welcome back, ${username}!`;
-    document.getElementById("user-display-name").textContent = username;
-    document.getElementById("user-avatar").textContent = username.charAt(0).toUpperCase();
+      document.getElementById("greeting").textContent          = `Welcome back, ${username}!`;
+      document.getElementById("user-display-name").textContent = username;
+
+      // Avatar
+      const avatarEl = document.getElementById("user-avatar");
+      if (u.avatar) {
+        avatarEl.innerHTML = `<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+      } else {
+        avatarEl.textContent = username.charAt(0).toUpperCase();
+      }
+
+      // Link username and identity box to public profile
+      const profileUrl = `user.html?uid=${user.uid}`;
+
+      const nameEl = document.getElementById("user-display-name");
+      nameEl.style.cssText = "cursor:pointer;text-decoration:underline;text-underline-offset:3px;";
+      nameEl.addEventListener("click", () => window.location.href = profileUrl);
+
+      const identityBox = document.querySelector(".user-identity-box");
+      if (identityBox) {
+        identityBox.style.cssText += "cursor:pointer;";
+        identityBox.title = "View your public profile";
+        identityBox.addEventListener("click", () => window.location.href = profileUrl);
+      }
+
+      // Pre-fill fields — value if set, placeholder if not
+      const usernameInput  = document.getElementById("profile-username");
+      const bioInput       = document.getElementById("profile-bio");
+      const avatarInput    = document.getElementById("profile-avatar");
+      const instagramInput = document.getElementById("profile-instagram");
+
+      if (u.username)  { usernameInput.value       = u.username;  }
+      else             { usernameInput.placeholder  = "Not set yet — add a username"; }
+
+      if (u.bio)       { bioInput.value             = u.bio;       }
+      else             { bioInput.placeholder        = "Tell other hikers about yourself…"; }
+
+      if (u.avatar)    { avatarInput.value           = u.avatar;   }
+      else             { avatarInput.placeholder      = "Paste an image URL…"; }
+
+      if (u.instagram) { instagramInput.value        = u.instagram;}
+      else             { instagramInput.placeholder   = "https://instagram.com/yourhandle"; }
+    }
   }
 });
 
