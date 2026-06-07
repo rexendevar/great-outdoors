@@ -10,10 +10,13 @@
 </head>
 <body>
   <div id="site-nav-container"></div>
-
+  <div class="profile-page-bg">
+    <img src="../Images/pilchuk.jpg" alt="">
+    <div class="profile-page-bg-fade"></div>
+  </div>
   <div class="page-header">
-  <img class="hero-img" src="../Images/pilchuk.jpg" alt="Mountain at sunset">
-  <div class="hero-overlay"></div>
+  <!-- <img class="hero-img" src="../Images/pilchuk.jpg" alt="Mountain at sunset">
+  <div class="hero-overlay"></div> -->
   <div class="profile-hero-inner">
     <div class="profile-avatar" id="profile-avatar"></div>
     <div class="profile-username" id="profile-username"></div>
@@ -26,17 +29,28 @@
   </div>
 
   <div id="content" style="display:none">
-    <div class="profile-wrapper">
+  <div class="profile-layout">
 
+    <!-- <div class="profile-side profile-side--left">
+      <img src="../Images/pilchuk.jpg" alt="">
+      <div class="profile-side-fade"></div>
+    </div> -->
+
+    <div class="profile-wrapper">
       <p class="profile-bio" id="profile-bio"></p>
-      <!-- Hiked trails -->
       <div class="profile-section">
         <span class="profile-section-heading">Trails Hiked</span>
         <div class="hiked-list" id="hiked-list"></div>
       </div>
-
     </div>
+
+    <!-- <div class="profile-side profile-side--right">
+      <img src="../Images/pilchuk.jpg" alt="">
+      <div class="profile-side-fade"></div>
+    </div> -->
+
   </div>
+</div>
 
   <script type="module">
     import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
