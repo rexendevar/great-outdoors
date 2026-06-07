@@ -517,3 +517,24 @@
   flex: 1;
   min-width: 0;
 }
+  .trail-weather {
+    flex-direction: row;
+    margin: 0.75rem 1rem;
+  }
+
+  .weather-row {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.65rem 0.4rem;
+    flex: 1;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    border-bottom: none;
+    grid-template-columns: unset;
+  }
+  .weather-row:last-child { border-right: none; border-bottom: none; }
+
+  .weather-temps { flex-direction: column; gap: 1px; }
+  .weather-rain  { font-size: 9px; }
+  .weather-day   { font-size: 9px; }
