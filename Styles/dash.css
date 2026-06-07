@@ -73,7 +73,7 @@
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
 }
-.logout-btn:hover  { background: #1e3a0d; }
+.logout-btn:hover  { background: var(--trail-gold); }
 .logout-btn:active { transform: scale(0.98); }
 
 
@@ -193,5 +193,5 @@
 }
 
 .profile-input::placeholder {
-  color: #B5AFA8;
+  color: var(--trail-sage);
 }

@@ -1,0 +1,342 @@
+.profile-page-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 60vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.profile-page-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+
+.profile-page-bg-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, #1C1F2E 100%);
+}
+
+.profile-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 28vh 2rem 2rem;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* Content card */
+.profile-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  background: #252A3D;
+  border-radius: 16px 16px 16px 16px;
+  padding: 2rem 2rem 5rem;
+  box-shadow: 0 -4px 32px rgba(0,0,0,0.3);
+}
+
+.profile-bio {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--trail-stone);
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.profile-section {
+  border-top: 1px dashed rgba(255,255,255,0.08);
+  padding-top: 1.5rem;
+  margin-top: 0;
+}
+
+/* @media (max-width: 900px) {
+  .profile-layout { grid-template-columns: 1fr; }
+  .profile-side   { display: none; }
+  .profile-wrapper { padding: 2rem 1.25rem 4rem; }
+} */
+
+@media (max-width: 500px) {
+    .profile-header { flex-direction: column; align-items: flex-start; }
+    .profile-avatar { width: 64px; height: 64px; font-size: 1.5rem; }
+}
+
+@media (max-width: 680px) {
+  .profile-page-bg {
+    position: absolute;
+    height: 20vh;
+  }
+
+  .profile-page-bg img {
+    object-position: center 20%;
+  }
+
+  .profile-hero-inner {
+    padding: 14vh 1.25rem 4rem;
+    gap: 0.75rem;
+    margin-top: -10vh;
+  }
+
+  .profile-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 1.4rem;
+  }
+
+  .profile-username {
+    font-size: 1.3rem;
+  }
+
+  .profile-wrapper {
+    border-radius: 0;
+    padding: 0rem 1.25rem 4rem;
+    max-width: 100%;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  body {
+    background: #252A3D;
+    position: relative;
+  }
+
+  .hiked-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+    /* ── Avatar + header ── */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--trail-pine);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--trail-bark);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .profile-info {}
+
+    .profile-username {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--trail-bark);
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+
+    /* .profile-bio {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--trail-stone);
+      line-height: 1.65;
+      max-width: 480px;
+    } */
+
+    /* ── Section ── */
+    .profile-section {
+      margin-top: 2rem;
+      border-top: 1px dashed rgba(255,255,255,0.08);
+      padding-top: 1.5rem;
+    }
+
+    .profile-section-heading {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--trail-gold);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* ── Hiked trails list ── */
+    .hiked-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .hiked-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #252A3D;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .hiked-item:hover { border-color: var(--trail-gold); }
+
+    .hiked-item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--trail-bark);
+    }
+
+    .hiked-item-date {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--trail-stone);
+    }
+
+    .profile-empty {
+      font-size: 13px;
+      color: var(--trail-stone);
+      font-style: italic;
+    }
+
+    /* ── Loading / error ── */
+    .status-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50vh;
+      flex-direction: column;
+      gap: 1rem;
+      color: var(--trail-stone);
+      font-size: 14px;
+    }
+
+
+
+
+
+.page-header {
+  position: relative;
+  overflow: hidden;
+  min-height: 140px;
+}
+
+.page-header .hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  z-index: 0;
+}
+
+/* .page-header .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(21,28,58,0.35) 0%, rgba(21,28,58,0.75) 100%);
+  z-index: 0;
+} */
+
+.page-header {
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* .page-header .hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  z-index: 0;
+} */
+
+/* .page-header .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(21,28,58,0.2) 0%, rgba(21,28,58,0.85) 100%);
+  z-index: 0;
+} */
+
+/* .profile-hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+} */
+
+.profile-username {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 0.2rem;
+}
+
+/* .profile-bio {
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.5;
+  max-width: 400px;
+} */
+
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--trail-pine);
+  border: 2.5px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}

@@ -389,7 +389,16 @@ async function renderHikedButton(user, trailId, trailData) {
 
       const meta       = document.createElement("div");
       meta.className   = "comment-meta";
-      meta.textContent = `${c.username ?? c.email} · ${date}`;
+      // meta.textContent = `${c.username ?? c.email} · ${date}`;
+      const usernameLink = document.createElement("a");
+      usernameLink.href      = `user.html?uid=${c.uid}`;
+      usernameLink.textContent = c.username ?? c.email;
+      usernameLink.style.cssText = "color:inherit;text-decoration:none;cursor:pointer;";
+      usernameLink.addEventListener("mouseover", () => usernameLink.style.textDecoration = "underline");
+      usernameLink.addEventListener("mouseout",  () => usernameLink.style.textDecoration = "none");
+
+      meta.appendChild(usernameLink);
+      meta.appendChild(document.createTextNode(` · ${date}`));
       if (c.edited) {
         const badge       = document.createElement("span");
         badge.className   = "comment-edited-badge";

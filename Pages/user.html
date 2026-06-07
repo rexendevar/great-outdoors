@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile</title>
+  <link rel="stylesheet" href="../Styles/great-outdoors.css">
+  <link rel="stylesheet" href="../Styles/user.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+  <div id="site-nav-container"></div>
+  <div class="profile-page-bg">
+    <img src="../Images/pilchuk.jpg" alt="">
+    <div class="profile-page-bg-fade"></div>
+  </div>
+  <div class="page-header">
+  <!-- <img class="hero-img" src="../Images/pilchuk.jpg" alt="Mountain at sunset">
+  <div class="hero-overlay"></div> -->
+  <div class="profile-hero-inner">
+    <div class="profile-avatar" id="profile-avatar"></div>
+    <div class="profile-username" id="profile-username"></div>
+  </div>
+</div>
+
+  <div id="status" class="status-screen">
+    <div class="spinner"></div>
+    <span>Loading profile…</span>
+  </div>
+
+  <div id="content" style="display:none">
+  <div class="profile-layout">
+
+    <!-- <div class="profile-side profile-side--left">
+      <img src="../Images/pilchuk.jpg" alt="">
+      <div class="profile-side-fade"></div>
+    </div> -->
+
+    <div class="profile-wrapper">
+      <p class="profile-bio" id="profile-bio"></p>
+      <div class="profile-section">
+        <span class="profile-section-heading">Trails Hiked</span>
+        <div class="hiked-list" id="hiked-list"></div>
+      </div>
+    </div>
+
+    <!-- <div class="profile-side profile-side--right">
+      <img src="../Images/pilchuk.jpg" alt="">
+      <div class="profile-side-fade"></div>
+    </div> -->
+
+  </div>
+</div>
+
+  <script type="module">
+    import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, getDocs, orderBy, query }
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { firebaseConfig }   from "../Scripts/great_outdoors.js";
+
+    const db = getFirestore(initializeApp(firebaseConfig));
+
+    function showError(msg) {
+      document.getElementById("status").innerHTML = `<span>${msg}</span>`;
+    }
+
+    const uid = new URLSearchParams(window.location.search).get("uid");
+
+    if (!uid) {
+      showError("No user specified.");
+    } else {
+      const userSnap = await getDoc(doc(db, "users", uid));
+
+      if (!userSnap.exists()) {
+        showError("User not found.");
+      } else {
+        const u = userSnap.data();
+
+        document.title = `${u.username} — Great Outdoors`;
+
+        // Avatar
+        const avatarEl = document.getElementById("profile-avatar");
+        if (u.avatar) {
+          const img = document.createElement("img");
+          img.src = u.avatar;
+          img.alt = u.username;
+          avatarEl.appendChild(img);
+        } else {
+          avatarEl.textContent = (u.username ?? "?").charAt(0).toUpperCase();
+        }
+
+        // Username + bio
+        document.getElementById("profile-username").textContent = u.username ?? "Unknown";
+        //document.getElementById("header-username").textContent = u.username ?? "User Profile";
+        document.getElementById("profile-bio").textContent      = u.bio ?? "";
+
+        // Hiked trails
+        const hikedSnap = await getDocs(
+          query(collection(db, "users", uid, "hikedTrails"), orderBy("marked_at", "desc"))
+        );
+
+        const list = document.getElementById("hiked-list");
+
+        if (hikedSnap.empty) {
+          list.innerHTML = `<p class="profile-empty">No trails hiked yet.</p>`;
+        } else {
+          hikedSnap.forEach(d => {
+            const h    = d.data();
+            const date = h.marked_at?.toDate().toLocaleDateString() ?? "";
+
+            const a = document.createElement("a");
+            a.className = "hiked-item";
+            a.href      = `trail.html?id=${h.trail_id}`;
+
+            const name = document.createElement("span");
+            name.className   = "hiked-item-name";
+            name.textContent = h.trail_name ?? "Unknown Trail";
+
+            const dateEl = document.createElement("span");
+            dateEl.className   = "hiked-item-date";
+            dateEl.textContent = date;
+
+            a.appendChild(name);
+            a.appendChild(dateEl);
+            list.appendChild(a);
+          });
+        }
+
+        document.getElementById("status").style.display  = "none";
+        document.getElementById("content").style.display = "";
+      }
+    }
+  </script>
+</body>
+</html>
