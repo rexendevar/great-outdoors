@@ -33,7 +33,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: 600;
-  color: #252A3D;
+  color: var(--trail-cold);
   line-height: 1.15;
 }
 .page-header p {
@@ -59,7 +59,7 @@
 }
 
 .form-card {
-  background: #252A3D;
+  background: var(--trail-cold);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 16px rgba(59,42,26,0.09);
@@ -100,7 +100,7 @@
   display: block;
   width: 100%;
   padding: 9px 11px;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 7px;
   font-family: 'Lato', sans-serif;
   font-size: 14px;
@@ -114,7 +114,7 @@
 }
 .field input:focus,
 .field select:focus,
-.field textarea:focus  { border-color: var(--trail-shade); background: #252A3D; }
+.field textarea:focus  { border-color: var(--trail-shade); background: var(--trail-cold); }
 .field input:invalid,
 .field select:invalid,
 .field textarea:invalid { border-color: #c0392b; }

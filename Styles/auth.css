@@ -28,7 +28,7 @@
 
 .tab-bar {
   display: flex;
-  background: #252A3D;
+  background: var(--trail-cold);
   border-radius: 40px;
   padding: 4px;
   gap: 2px;
@@ -50,10 +50,10 @@
   color: var(--trail-fog);
   transition: background 0.25s, color 0.25s;
 }
-.tab-btn.active { background: var(--trail-shade); color: #252A3D; }
+.tab-btn.active { background: var(--trail-shade); color: var(--trail-cold); }
 
 .card {
-  background: #252A3D;
+  background: var(--trail-cold);
   border-radius: 16px;
   padding: 2rem 2rem 1.75rem;
   width: 100%;
@@ -121,7 +121,7 @@
   display: block;
   width: 100%;
   padding: 11px 12px 11px 38px;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
   font-size: 14px;
@@ -130,7 +130,7 @@
   transition: border-color 0.2s, background 0.2s;
   outline: none;
 }
-.field-input:focus         { border-color: var(--trail-shade); background: #252A3D; }
+.field-input:focus         { border-color: var(--trail-shade); background: var(--trail-cold); }
 .field-input::placeholder  { color: #B5AFA8; }
 
 .forgot-link {
@@ -160,7 +160,7 @@
   display: flex;
   justify-content: space-around;
   padding: 0.75rem 0;
-  border-top: 1px dashed #E0DDD8;
+  border-top: 1px dashed var(--trail-bright);
   margin-top: 1.25rem;
 }
 
@@ -183,7 +183,7 @@
 .difficulty-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 1rem; }
 .diff-btn {
   display: block;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   background: var(--trail-night);
   border-radius: 8px;
   padding: 8px 4px;
@@ -213,7 +213,7 @@
   padding: 4px 10px;
   border-radius: 20px;
   cursor: pointer;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   background: var(--trail-night);
   color: var(--trail-fog);
   transition: border-color 0.2s, background 0.2s, color 0.2s;

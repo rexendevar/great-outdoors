@@ -15,7 +15,7 @@
 }
 
 .dashboard-card {
-  background: #252A3D;
+  background: var(--trail-cold);
   border-radius: 16px;
   padding: 2rem;
   width: 100%;
@@ -37,7 +37,7 @@
   align-items: center;
   gap: 12px;
   background: var(--trail-night);
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 10px;
   padding: 0.85rem;
 }
@@ -49,8 +49,8 @@
   display: flex;
   justify-content: space-around;
   padding: 0.85rem 0;
-  border-top: 1px dashed #E0DDD8;
-  border-bottom: 1px dashed #E0DDD8;
+  border-top: 1px dashed var(--trail-bright);
+  border-bottom: 1px dashed var(--trail-bright);
   margin-bottom: 1.25rem;
 }
 
@@ -89,7 +89,7 @@
   align-items: center;
   gap: 14px;
   background: var(--trail-night);
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1.25rem;
@@ -100,7 +100,7 @@
   height: 48px;
   border-radius: 50%;
   background: var(--trail-shade);
-  color: #252A3D;
+  color: var(--trail-cold);
   font-family: 'Playfair Display', serif;
   font-size: 20px;
   display: flex;
@@ -132,7 +132,7 @@
 
 .profile-section {
   background: var(--trail-night);
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1.25rem;
@@ -176,13 +176,13 @@
   display: block;
   width: 100%;
   padding: 9px 11px;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 7px;
   font-family: 'Lato', sans-serif;
   font-size: 14px;
   font-weight: 300;
   color: var(--trail-cloud);
-  background: #252A3D;
+  background: var(--trail-cold);
   outline: none;
   transition: border-color 0.2s;
   resize: vertical;

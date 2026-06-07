@@ -74,7 +74,7 @@
   margin-bottom: 1rem;
   transition: color 0.2s;
 }
-#edit-trail-btn:hover { color: #252A3D; }
+#edit-trail-btn:hover { color: var(--trail-cold); }
 
 #name {
   font-family: 'Playfair Display', serif;
@@ -93,7 +93,7 @@
 }
 
 .stat-strip {
-  background: #252A3D;
+  background: var(--trail-cold);
   border-bottom: 1px solid #E8E5E0;
   display: flex;
   justify-content: center;
@@ -177,7 +177,7 @@
 }
 
 .info-card {
-  background: #252A3D;
+  background: var(--trail-cold);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 16px rgba(59,42,26,0.1);
@@ -209,8 +209,8 @@
 
 .hiked-trail-box {
   grid-column: 1 / -1;
-  background: #252A3D;
-  border: 1px solid #E0DDD8;
+  background: var(--trail-cold);
+  border: 1px solid var(--trail-bright);
   border-radius: 10px;
   padding: 1rem;
   margin-top: 0.5rem;
@@ -250,7 +250,7 @@
 
 .hiked-trail-btn.completed {
   background: var(--trail-ray);
-  color: #252A3D;
+  color: var(--trail-cold);
 }
 
 .hiked-trail-help {
@@ -266,7 +266,7 @@
 }
 
 
-.comment-btn.mod-delete { color: #C4563A; }
+.comment-btn.mod-delete { color: var(--trail-ray); }
 .comment-btn.mod-delete:hover { color: #a03030; }
 
 .comments-section {
@@ -283,8 +283,8 @@
 }
 
 .comment-item {
-  background: #252A3D;
-  border: 1px solid #E0DDD8;
+  background: var(--trail-cold);
+  border: 1px solid var(--trail-bright);
   border-radius: 8px;
   padding: 0.85rem 1rem;
   margin-bottom: 0.6rem;
@@ -333,7 +333,7 @@
 .comment-edit-area {
   width: 100%;
   padding: 8px 10px;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 6px;
   font-family: 'Lato', sans-serif;
   font-size: 14px;
@@ -351,7 +351,7 @@
   display: block;
   width: 100%;
   padding: 10px 12px;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
   font-size: 14px;
@@ -363,7 +363,7 @@
   margin-bottom: 0.5rem;
   transition: border-color 0.2s;
 }
-#comment-input:focus { border-color: var(--trail-shade); background: #252A3D; }
+#comment-input:focus { border-color: var(--trail-shade); background: var(--trail-cold); }
 
 #comment-submit {
   display: inline-flex;
@@ -371,7 +371,7 @@
   gap: 6px;
   padding: 10px 20px;
   background: var(--trail-shade);
-  color: #252A3D;
+  color: var(--trail-cold);
   border: none;
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
@@ -392,7 +392,7 @@
   aspect-ratio: 1;
   border-radius: 8px;
   overflow: hidden;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
 }
 
 .info-row-value,
@@ -403,7 +403,7 @@
 .trail-weather {
   display: flex;
   flex-direction: column;
-  background: #1C1F2E;
+  background: var(--trail-void);
   border-radius: 10px;
   overflow: hidden;
   margin: 0.75rem 1rem;
