@@ -116,7 +116,7 @@
             <div id="trail-map" class="trail-map"></div>
             <p id="location-label" style="
               font-size: 11px;
-              color: var(--trail-stone);
+              color: var(--trail-fog);
               text-align: center;
               padding: 0.4rem 0 0;
               letter-spacing: 0.04em;
@@ -138,7 +138,7 @@
         <div id="comments"></div>
         <div id="comment-form" style="display:none">
           <textarea id="comment-input" rows="3" maxlength="1000" placeholder="Write a comment…"></textarea>
-          <button id="comment-submit" style="color:var(--trail-gold)"><i class="ti ti-send"></i> Post</button>
+          <button id="comment-submit" style="color:var(--trail-ray)"><i class="ti ti-send"></i> Post</button>
         </div>
         <p id="comment-login">You must be <a href="login.html">logged in</a> to comment.</p>
       </div>
@@ -223,7 +223,7 @@
             className: "",
             html: `<div style="
               width:14px;height:14px;
-              background:var(--trail-gold);
+              background:var(--trail-ray);
               border:2.5px solid #fff;
               border-radius:50%;
               box-shadow:0 2px 6px rgba(0,0,0,0.4);
@@ -476,8 +476,8 @@
         const bannedSpan = document.createElement("span");
         bannedSpan.className = "comment-edited-badge";
         bannedSpan.textContent = "banned";
-        bannedSpan.style.borderColor = "var(--trail-gold)";
-        bannedSpan.style.color = "var(--trail-gold)";
+        bannedSpan.style.borderColor = "var(--trail-ray)";
+        bannedSpan.style.color = "var(--trail-ray)";
         meta.appendChild(bannedSpan);
       }
       meta.appendChild(document.createTextNode(` · ${date}`));

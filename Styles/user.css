@@ -47,7 +47,7 @@
 .profile-bio {
   font-size: 14px;
   font-weight: 300;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   line-height: 1.65;
   margin-bottom: 1.5rem;
 }
@@ -128,14 +128,14 @@
       height: 80px;
       border-radius: 50%;
       object-fit: cover;
-      background: var(--trail-pine);
+      background: var(--trail-shade);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
       font-weight: 600;
-      color: var(--trail-bark);
+      color: var(--trail-cloud);
       flex-shrink: 0;
       overflow: hidden;
     }
@@ -153,7 +153,7 @@
       font-family: 'Playfair Display', serif;
       font-size: 1.8rem;
       font-weight: 600;
-      color: var(--trail-bark);
+      color: var(--trail-cloud);
       line-height: 1.1;
       margin-bottom: 0.35rem;
     }
@@ -161,7 +161,7 @@
     /* .profile-bio {
       font-size: 14px;
       font-weight: 300;
-      color: var(--trail-stone);
+      color: var(--trail-fog);
       line-height: 1.65;
       max-width: 480px;
     } */
@@ -178,7 +178,7 @@
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--trail-gold);
+      color: var(--trail-ray);
       margin-bottom: 1rem;
       display: block;
     }
@@ -201,13 +201,13 @@
       text-decoration: none;
       transition: border-color 0.2s;
     }
-    .hiked-item:hover { border-color: var(--trail-gold); }
+    .hiked-item:hover { border-color: var(--trail-ray); }
 
     .hiked-item-name {
       font-family: 'Playfair Display', serif;
       font-size: 1rem;
       font-weight: 600;
-      color: var(--trail-bark);
+      color: var(--trail-cloud);
     }
 
     .hiked-item-date {
@@ -215,12 +215,12 @@
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--trail-stone);
+      color: var(--trail-fog);
     }
 
     .profile-empty {
       font-size: 13px;
-      color: var(--trail-stone);
+      color: var(--trail-fog);
       font-style: italic;
     }
 
@@ -232,7 +232,7 @@
       min-height: 50vh;
       flex-direction: column;
       gap: 1rem;
-      color: var(--trail-stone);
+      color: var(--trail-fog);
       font-size: 14px;
     }
 
@@ -321,7 +321,7 @@
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: var(--trail-pine);
+  background: var(--trail-shade);
   border: 2.5px solid rgba(255,255,255,0.3);
   display: flex;
   align-items: center;

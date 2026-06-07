@@ -5,7 +5,7 @@
 
 .dashboard-wrapper {
   min-height: 100vh;
-  background: var(--trail-mist);
+  background: var(--trail-sleep);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,8 +27,8 @@
 }
 
 .dashboard-header { text-align: center; margin-bottom: 1.5rem; }
-.dashboard-header h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: var(--trail-bark); margin-bottom: 0.35rem; }
-.dashboard-header p  { font-size: 14px; color: var(--trail-stone); font-weight: 300; }
+.dashboard-header h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: var(--trail-cloud); margin-bottom: 0.35rem; }
+.dashboard-header p  { font-size: 14px; color: var(--trail-fog); font-weight: 300; }
 
 .dashboard-info  { display: grid; gap: 0.75rem; margin-bottom: 1.25rem; }
 
@@ -36,14 +36,14 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--trail-cream);
+  background: var(--trail-night);
   border: 1.5px solid #E0DDD8;
   border-radius: 10px;
   padding: 0.85rem;
 }
-.info-box i    { font-size: 22px; color: var(--trail-pine); }
-.info-box h3   { font-size: 13px; font-weight: 700; color: var(--trail-bark); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 2px; }
-.info-box p    { font-size: 13px; color: var(--trail-stone); line-height: 1.3; }
+.info-box i    { font-size: 22px; color: var(--trail-shade); }
+.info-box h3   { font-size: 13px; font-weight: 700; color: var(--trail-cloud); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 2px; }
+.info-box p    { font-size: 13px; color: var(--trail-fog); line-height: 1.3; }
 
 .dashboard-stats {
   display: flex;
@@ -61,8 +61,8 @@
   gap: 8px;
   width: 100%;
   padding: 13px;
-  background: var(--trail-pine);
-  color: var(--trail-bark);
+  background: var(--trail-shade);
+  color: var(--trail-cloud);
   border: 1.5px solid transparent;
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
@@ -73,13 +73,13 @@
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
 }
-.logout-btn:hover  { background: var(--trail-gold); }
+.logout-btn:hover  { background: var(--trail-ray); }
 .logout-btn:active { transform: scale(0.98); }
 
 
 .user-email-display {
   font-size: 13px;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   font-weight: 300;
   margin-top: 0.15rem;
 }
@@ -88,7 +88,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  background: var(--trail-cream);
+  background: var(--trail-night);
   border: 1.5px solid #E0DDD8;
   border-radius: 10px;
   padding: 1rem;
@@ -99,7 +99,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--trail-pine);
+  background: var(--trail-shade);
   color: #252A3D;
   font-family: 'Playfair Display', serif;
   font-size: 20px;
@@ -119,19 +119,19 @@
 .user-identity-name {
   font-size: 16px;
   font-weight: 700;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   font-family: 'Playfair Display', serif;
 }
 
 .user-identity-meta {
   font-size: 12px;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   font-weight: 400;
   letter-spacing: 0.04em;
 }
 
 .profile-section {
-  background: var(--trail-cream);
+  background: var(--trail-night);
   border: 1.5px solid #E0DDD8;
   border-radius: 10px;
   padding: 1rem;
@@ -146,7 +146,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   margin-bottom: 0.25rem;
 }
 
@@ -161,7 +161,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -169,7 +169,7 @@
 
 .profile-label i {
   font-size: 14px;
-  color: var(--trail-sage);
+  color: var(--trail-mist);
 }
 
 .profile-input {
@@ -181,7 +181,7 @@
   font-family: 'Lato', sans-serif;
   font-size: 14px;
   font-weight: 300;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   background: #252A3D;
   outline: none;
   transition: border-color 0.2s;
@@ -189,9 +189,9 @@
 }
 
 .profile-input:focus {
-  border-color: var(--trail-pine);
+  border-color: var(--trail-shade);
 }
 
 .profile-input::placeholder {
-  color: var(--trail-sage);
+  color: var(--trail-mist);
 }

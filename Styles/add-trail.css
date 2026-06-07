@@ -4,7 +4,7 @@
    ============================================ */
 
 .page-header {
-  background: var(--trail-pine);
+  background: var(--trail-shade);
   padding: 2rem 2rem 1.75rem;
   position: relative;
   overflow: hidden;
@@ -15,7 +15,7 @@
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 5px;
-  background: linear-gradient(90deg, var(--trail-pine) 0%, var(--trail-sage) 50%, var(--trail-gold) 100%);
+  background: linear-gradient(90deg, var(--trail-shade) 0%, var(--trail-mist) 50%, var(--trail-ray) 100%);
 }
 .page-header-mountains {
   position: absolute;
@@ -52,7 +52,7 @@
 
 #status {
   font-size: 13px;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   margin-bottom: 1rem;
   min-height: 1.2em;
   font-style: italic;
@@ -66,8 +66,8 @@
   margin-bottom: 1.5rem;
 }
 .form-card-header {
-  background: var(--trail-pine);
-  color: var(--trail-bark);
+  background: var(--trail-shade);
+  color: var(--trail-cloud);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -91,7 +91,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   margin-bottom: 5px;
 }
 .field input,
@@ -105,8 +105,8 @@
   font-family: 'Lato', sans-serif;
   font-size: 14px;
   font-weight: 300;
-  color: var(--trail-bark);
-  background: var(--trail-cream);
+  color: var(--trail-cloud);
+  background: var(--trail-night);
   outline: none;
   transition: border-color 0.2s, background 0.2s;
   -webkit-appearance: none;
@@ -114,7 +114,7 @@
 }
 .field input:focus,
 .field select:focus,
-.field textarea:focus  { border-color: var(--trail-pine); background: #252A3D; }
+.field textarea:focus  { border-color: var(--trail-shade); background: #252A3D; }
 .field input:invalid,
 .field select:invalid,
 .field textarea:invalid { border-color: #c0392b; }
@@ -129,7 +129,7 @@
   cursor: pointer;
 }
 
-.req { color: var(--trail-gold); margin-left: 2px; }
+.req { color: var(--trail-ray); margin-left: 2px; }
 
 .submit-row { display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem; }
 

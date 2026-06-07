@@ -12,7 +12,7 @@
 .auth-wrapper {
   font-family: 'Lato', sans-serif;
   min-height: 100vh;
-  background: var(--trail-mist);
+  background: var(--trail-sleep);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,10 +47,10 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   transition: background 0.25s, color 0.25s;
 }
-.tab-btn.active { background: var(--trail-pine); color: #252A3D; }
+.tab-btn.active { background: var(--trail-shade); color: #252A3D; }
 
 .card {
   background: #252A3D;
@@ -69,13 +69,13 @@
   font-family: 'Playfair Display', serif;
   font-size: 22px;
   font-weight: 600;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   margin-bottom: 0.25rem;
   display: block;
 }
 .card-sub {
   font-size: 13px;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   font-weight: 300;
   letter-spacing: 0.03em;
   display: block;
@@ -92,7 +92,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   margin-bottom: 6px;
   font-family: 'Lato', sans-serif;
 }
@@ -111,7 +111,7 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   font-size: 16px;
   pointer-events: none;
   display: inline-block;
@@ -125,23 +125,23 @@
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
   font-size: 14px;
-  color: var(--trail-bark);
-  background: var(--trail-cream);
+  color: var(--trail-cloud);
+  background: var(--trail-night);
   transition: border-color 0.2s, background 0.2s;
   outline: none;
 }
-.field-input:focus         { border-color: var(--trail-pine); background: #252A3D; }
+.field-input:focus         { border-color: var(--trail-shade); background: #252A3D; }
 .field-input::placeholder  { color: #B5AFA8; }
 
 .forgot-link {
   display: inline;
   font-size: 12px;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   cursor: pointer;
   transition: color 0.2s;
   font-family: 'Lato', sans-serif;
 }
-.forgot-link:hover { color: var(--trail-pine); }
+.forgot-link:hover { color: var(--trail-shade); }
 
 .divider {
   display: flex;
@@ -169,12 +169,12 @@
   text-align: center;
   margin-top: 1rem;
   font-size: 13px;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   font-family: 'Lato', sans-serif;
 }
 .signin-link a {
   display: inline;
-  color: var(--trail-pine);
+  color: var(--trail-shade);
   font-weight: 700;
   cursor: pointer;
   font-family: 'Lato', sans-serif;
@@ -184,7 +184,7 @@
 .diff-btn {
   display: block;
   border: 1.5px solid #E0DDD8;
-  background: var(--trail-cream);
+  background: var(--trail-night);
   border-radius: 8px;
   padding: 8px 4px;
   cursor: pointer;
@@ -194,12 +194,12 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
-.diff-btn:hover            { border-color: var(--trail-sage); }
-.diff-btn.selected-easy    { border-color: var(--trail-sage); background: #EBF2E4; color: var(--trail-pine); }
-.diff-btn.selected-mod     { border-color: var(--trail-gold); background: #FBF3E6; color: #8A5F1A; }
+.diff-btn:hover            { border-color: var(--trail-mist); }
+.diff-btn.selected-easy    { border-color: var(--trail-mist); background: #EBF2E4; color: var(--trail-shade); }
+.diff-btn.selected-mod     { border-color: var(--trail-ray); background: #FBF3E6; color: #8A5F1A; }
 .diff-btn.selected-hard    { border-color: #A03030; background: #FAE8E8; color: #7A2020; }
 .diff-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
 
@@ -214,10 +214,10 @@
   border-radius: 20px;
   cursor: pointer;
   border: 1.5px solid #E0DDD8;
-  background: var(--trail-cream);
-  color: var(--trail-stone);
+  background: var(--trail-night);
+  color: var(--trail-fog);
   transition: border-color 0.2s, background 0.2s, color 0.2s;
   user-select: none;
   font-family: 'Lato', sans-serif;
 }
-.badge.sel { background: #EBF2E4; border-color: var(--trail-sage); color: var(--trail-pine); }
+.badge.sel { background: #EBF2E4; border-color: var(--trail-mist); color: var(--trail-shade); }

@@ -16,7 +16,7 @@
   text-align: center;
   padding: 5rem 2rem 8rem;
   overflow: hidden;
-  background: var(--trail-pine); /* fallback if image fails */
+  background: var(--trail-shade); /* fallback if image fails */
 }
 
 .hero-img {
@@ -42,7 +42,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   margin-bottom: 1.25rem;
   position: relative;
   z-index: 1;
@@ -56,7 +56,7 @@
   content: '';
   width: 32px;
   height: 1px;
-  background: var(--trail-bark);
+  background: var(--trail-cloud);
   opacity: 0.6;
   display: inline-block;
 }
@@ -65,7 +65,7 @@
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.8rem, 8vw, 5.5rem);
   font-weight: 600;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   line-height: 1.08;
   letter-spacing: -0.01em;
   margin-bottom: 1.25rem;
@@ -76,7 +76,7 @@
 
 .hero-title em {
   font-style: italic;
-  color: var(--trail-sky);
+  color: var(--trail-dusk);
 }
 
 .hero-sub {
@@ -120,10 +120,10 @@
 .hero-btn:active { transform: scale(0.97); }
 
 .hero-btn--primary {
-  background: var(--trail-gold);
-  color: var(--trail-bark);
+  background: var(--trail-ray);
+  color: var(--trail-cloud);
 }
-.hero-btn--primary:hover { background: #d9a040; color: var(--trail-bark); }
+.hero-btn--primary:hover { background: #d9a040; color: var(--trail-cloud); }
 
 .hero-btn--ghost {
   background: rgba(255,255,255,0.1);
@@ -136,7 +136,7 @@
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 5px;
-  background: linear-gradient(90deg, var(--trail-pine) 0%, var(--trail-sage) 50%, var(--trail-gold) 100%);
+  background: linear-gradient(90deg, var(--trail-shade) 0%, var(--trail-mist) 50%, var(--trail-ray) 100%);
 }
 
 /* ── Stats bar ── */
@@ -162,7 +162,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.7rem;
   font-weight: 600;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   line-height: 1;
 }
 
@@ -171,7 +171,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   margin-top: 4px;
 }
 
@@ -195,7 +195,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.9rem;
   font-weight: 600;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   line-height: 1.1;
 }
 
@@ -204,14 +204,14 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--trail-gold);
+  color: var(--trail-ray);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 4px;
   white-space: nowrap;
 }
-.section-link:hover { color: var(--trail-sage); }
+.section-link:hover { color: var(--trail-mist); }
 
 /* ── Trail cards grid ── */
 .trail-grid {
@@ -242,13 +242,13 @@
   height: 160px;
   object-fit: cover;
   display: block;
-  background: var(--trail-mist);
+  background: var(--trail-sleep);
 }
 
 .trail-card-image-placeholder {
   width: 100%;
   height: 160px;
-  background: linear-gradient(135deg, var(--trail-mist) 0%, #dde5d8 100%);
+  background: linear-gradient(135deg, var(--trail-sleep) 0%, #dde5d8 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -256,7 +256,7 @@
 
 .trail-card-image-placeholder i {
   font-size: 40px;
-  color: var(--trail-sage);
+  color: var(--trail-mist);
   opacity: 0.5;
 }
 
@@ -272,7 +272,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--trail-gold);
+  color: var(--trail-ray);
   margin-bottom: 4px;
 }
 
@@ -280,7 +280,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   margin-bottom: 0.6rem;
   line-height: 1.25;
 }
@@ -303,7 +303,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   line-height: 1;
 }
 
@@ -312,7 +312,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   margin-top: 2px;
 }
 
@@ -327,7 +327,7 @@
   margin-bottom: 0.5rem;
   align-self: flex-start;
 }
-.diff-easy   { background: #EBF2E4; color: var(--trail-pine); }
+.diff-easy   { background: #EBF2E4; color: var(--trail-shade); }
 .diff-mod    { background: #FBF3E6; color: #8A5F1A; }
 .diff-hard   { background: #FAE8E8; color: #7A2020; }
 
@@ -368,7 +368,7 @@
 
 /* ── CTA banner ── */
 .cta-banner {
-  background: var(--trail-pine);
+  background: var(--trail-shade);
   position: relative;
   overflow: hidden;
   padding: 4rem 2rem;
@@ -410,7 +410,7 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--trail-pine) 0%, var(--trail-sage) 50%, var(--trail-gold) 100%);
+  background: linear-gradient(90deg, var(--trail-shade) 0%, var(--trail-mist) 50%, var(--trail-ray) 100%);
 }
 
 /* ── Footer ── */

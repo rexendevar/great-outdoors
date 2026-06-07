@@ -7,14 +7,14 @@
 
 /* ── Variables ── */
 :root {
-  --trail-bark:  #E8E0D4;
-  --trail-pine:  #1E2B52;
-  --trail-sage:  #6B7AAB;
-  --trail-stone: #8B90B0;
-  --trail-sky:   #E8724A;
-  --trail-mist:  #12172E;
-  --trail-cream: #1A2040;
-  --trail-gold:  #C4563A;
+  --trail-cloud:  #E8E0D4;
+  --trail-shade:  #1E2B52;
+  --trail-mist:  #6B7AAB;
+  --trail-fog: #8B90B0;
+  --trail-dusk:   #E8724A;
+  --trail-sleep:  #12172E;
+  --trail-night: #1A2040;
+  --trail-ray:  #C4563A;
 }
 
 /* ── Reset ── */
@@ -25,9 +25,9 @@
 }
 
 html, body {
-  background: var(--trail-mist);
+  background: var(--trail-sleep);
   font-family: 'Lato', sans-serif;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   min-height: 100vh;
 }
 
@@ -77,7 +77,7 @@ a { text-decoration: none; }
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 5px;
-  background: linear-gradient(90deg, var(--trail-pine) 0%, var(--trail-sage) 50%, var(--trail-gold) 100%);
+  background: linear-gradient(90deg, var(--trail-shade) 0%, var(--trail-mist) 50%, var(--trail-ray) 100%);
 }
 
 /* ── Shared green submit / action button ── */
@@ -87,7 +87,7 @@ a { text-decoration: none; }
   justify-content: center;
   gap: 8px;
   padding: 12px 28px;
-  background: var(--trail-pine);
+  background: var(--trail-shade);
   color: #252A3D;
   border: 1.5px solid transparent;
   border-radius: 8px;
@@ -104,19 +104,19 @@ a { text-decoration: none; }
 
 .submit-btn--secondary {
   background: #252A3D;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   border-color: #E0DDD8;
 }
 .submit-btn--secondary:hover {
-  background: var(--trail-cream);
-  color: var(--trail-bark);
+  background: var(--trail-night);
+  color: var(--trail-cloud);
 }
 
 /* ── Shared trail icon circle ── */
 .trail-icon {
   width: 52px;
   height: 52px;
-  background: var(--trail-mist);
+  background: var(--trail-sleep);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -125,13 +125,13 @@ a { text-decoration: none; }
 }
 .trail-icon i {
   font-size: 26px;
-  color: var(--trail-pine);
+  color: var(--trail-shade);
 }
 
 /* ── Shared stat item (used in auth footer + dashboard) ── */
 .stat-item  { text-align: center; display: block; }
-.stat-val   { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--trail-bark); display: block; }
-.stat-lbl   { display: block; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--trail-stone); font-weight: 700; font-family: 'Lato', sans-serif; }
+.stat-val   { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--trail-cloud); display: block; }
+.stat-lbl   { display: block; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--trail-fog); font-weight: 700; font-family: 'Lato', sans-serif; }
 
 /* ── Loading spinner ── */
 .status-screen {
@@ -141,14 +141,14 @@ a { text-decoration: none; }
   min-height: 60vh;
   flex-direction: column;
   gap: 1rem;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   font-size: 14px;
   letter-spacing: 0.05em;
 }
 .spinner {
   width: 32px; height: 32px;
   border: 3px solid #E0DDD8;
-  border-top-color: var(--trail-pine);
+  border-top-color: var(--trail-shade);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -164,7 +164,7 @@ a { text-decoration: none; }
   top: 0;
   z-index: 100;
   width: 100%;
-  background: var(--trail-pine);
+  background: var(--trail-shade);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -425,16 +425,16 @@ h1, h2, h3, p { color: #D4CCBF; }
   font-size: 11px;
   color: #bbb;
   padding: 0.6rem 1rem;
-  /* background: var(--trail-cream); */
+  /* background: var(--trail-night); */
   font-family: 'Lato', sans-serif;
   letter-spacing: 0.04em;
 }
 
 .photo-credit a {
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   text-decoration: underline;
 }
 
 .photo-credit a:hover {
-  color: var(--trail-gold);
+  color: var(--trail-ray);
 }
