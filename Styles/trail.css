@@ -384,9 +384,35 @@
 #comment-login a { color: var(--trail-pine); font-weight: 700; text-decoration: underline; cursor: pointer; }
 
 @media (max-width: 680px) {
-  .trail-body          { grid-template-columns: 1fr; }
-  .stat-strip-item     { min-width: 80px; padding: 0.75rem 1rem; }
-  .comments-section    { grid-column: 1; }
+  .trail-header { min-height: 160px; }
+  .trail-header-inner { padding: 1.25rem; }
+
+  #name { font-size: 1.6rem; }
+
+  .stat-strip { flex-wrap: wrap; }
+  .stat-strip-item {
+    min-width: calc(50% - 1px);
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .trail-body {
+    grid-template-columns: 1fr;
+    padding: 1.25rem 1rem 3rem;
+    gap: 1.25rem;
+  }
+
+  .comments-section { grid-column: 1; }
+  .hiked-trail-box  { grid-column: 1; }
+
+  #images img {
+    width: calc(50% - 4px);
+    height: 110px;
+  }
+
+  .info-card { margin-bottom: 0; }
+
+  .trail-map { aspect-ratio: 4/3; }
 }
 
 .trail-map {
