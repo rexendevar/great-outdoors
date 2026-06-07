@@ -361,8 +361,23 @@
       // Last edited
       if (t.updated_by && t.updated_at) {
         const date = t.updated_at.toDate().toLocaleDateString();
-        document.getElementById("last-edited").textContent =
-          `Last edited by ${t.updated_by_username ?? t.updated_by} on ${date}`;
+        const lastEdited = document.getElementById("last-edited");
+        const username   = t.updated_by_username ?? t.updated_by;
+        const uid        = t.updated_by_uid;
+
+        lastEdited.textContent = `Last edited by `;
+
+        if (uid) {
+          const link = document.createElement("a");
+          link.href      = `user.html?uid=${uid}`;
+          link.textContent = username;
+          link.style.cssText = "color:inherit;text-decoration:underline;cursor:pointer;";
+          lastEdited.appendChild(link);
+        } else {
+          lastEdited.appendChild(document.createTextNode(username));
+        }
+
+        lastEdited.appendChild(document.createTextNode(` on ${date}`));
       }
     }
 
