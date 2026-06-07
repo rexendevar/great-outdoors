@@ -169,7 +169,8 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, addDoc, getDoc, setDoc, serverTimestamp, GeoPoint } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    import { firebaseConfig, doc, auth, onAuthStateChanged } from "../Scripts/great_outdoors.js";
+    import { firebaseConfig, doc, auth, onAuthStateChanged, isUserBanned } from "../Scripts/great_outdoors.js";
+    // import {  } from "../Scripts/great_outdoors.js";
 
     const db = getFirestore(initializeApp(firebaseConfig));
     const status = document.getElementById("status");
@@ -178,7 +179,16 @@
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         window.location.href = `login.html?redirect=add-trail.html`;
-      } else {
+        return;
+      }
+
+      const banned = await isUserBanned(user.uid);
+      if (banned) {
+        window.location.href = `trail.html`;
+        return;
+      }
+
+      if (true) {
 
         // Initialise location picker map
         const locationMap = L.map("location-map", {

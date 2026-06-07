@@ -54,9 +54,10 @@
 
   <script type="module">
     import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, getDocs, orderBy, query }
+    import { getFirestore, doc, getDoc, setDoc, collection, getDocs, orderBy, query, serverTimestamp }
                                 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import { firebaseConfig }   from "../Scripts/great_outdoors.js";
+    import { isModerator } from "../Scripts/great_outdoors.js";
 
     const db = getFirestore(initializeApp(firebaseConfig));
 
@@ -93,6 +94,67 @@
         document.getElementById("profile-username").textContent = u.username ?? "Unknown";
         //document.getElementById("header-username").textContent = u.username ?? "User Profile";
         document.getElementById("profile-bio").textContent      = u.bio ?? "";
+
+
+        // Ban status
+        const modSnap = await getDoc(doc(db, "users", uid, "moderation", "status"));
+        const isBanned = modSnap.exists() && modSnap.data().banned === true;
+
+        if (isBanned) {
+          const badge = document.createElement("div");
+          badge.className   = "banned-badge";
+          badge.textContent = "(banned)";
+          badge.style = "color:var(--trail-gold)";
+          document.getElementById("profile-username").after(badge);
+        }
+
+        // Mod controls
+        // import { isModerator } from "../Scripts/great_outdoors.js"; // already at top
+        const { auth, onAuthStateChanged } = await import("../Scripts/great_outdoors.js");
+
+        onAuthStateChanged(auth, async (viewer) => {
+          if (!viewer) return;
+          const viewerIsMod = await isModerator(viewer.uid);
+          if (!viewerIsMod || viewer.uid === uid) return;
+
+          const modBox = document.createElement("div");
+          modBox.className = "mod-box";
+
+          const banBtn = document.createElement("button");
+          banBtn.className   = "submit-btn";
+          banBtn.style.background = isBanned ? "var(--trail-sage)" : "var(--trail-gold)";
+          banBtn.textContent = isBanned ? "Unban User" : "Ban User";
+
+          banBtn.addEventListener("click", async () => {
+            if (!confirm(isBanned ? `Unban ${u.username}?` : `Ban ${u.username}? They will not be able to post or edit.`)) return;
+            if (isBanned) {
+              await setDoc(doc(db, "users", uid, "moderation", "status"), { banned: false });
+              banBtn.textContent = "Ban User";
+              banBtn.style.background = "#A03030";
+              document.querySelector(".banned-badge")?.remove();
+              window.location.reload();
+            } else {
+              await setDoc(doc(db, "users", uid, "moderation", "status"), {
+                banned: true,
+                banned_at: serverTimestamp(),
+                banned_by: viewer.uid,
+              });
+              banBtn.textContent = "Unban User";
+              banBtn.style.background = "var(--trail-sage)";
+              if (!document.querySelector(".banned-badge")) {
+                const badge = document.createElement("div");
+                badge.className   = "banned-badge";
+                badge.textContent = "(banned)";
+                badge.style = "color:var(--trail-gold)";
+                document.getElementById("profile-username").after(badge);
+              }
+              window.location.reload();
+            }
+          });
+
+          modBox.appendChild(banBtn);
+          document.querySelector(".profile-wrapper").prepend(modBox);
+        });
 
         // Hiked trails
         const hikedSnap = await getDocs(

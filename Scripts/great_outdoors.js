@@ -446,6 +446,16 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById("user-email").textContent = user.email ?? "";
 
     const userDoc = await getDoc(doc(db, "users", user.uid));
+    const modSnap = await getDoc(doc(db, "users", user.uid, "moderation", "status"));
+    const banned  = modSnap.exists() && modSnap.data().banned === true;
+
+    if (banned) {
+      document.querySelector(".profile-section").style.display = "none";
+      const msg = document.createElement("p");
+      msg.textContent = "Your account has been banned. You cannot edit your profile.";
+      msg.style.cssText = "color:var(--trail-gold);font-size:13px;margin-bottom:1rem;";
+      document.querySelector(".profile-section").insertAdjacentElement("afterend", msg);
+    }
     if (userDoc.exists()) {
       const u = userDoc.data();
       const username = u.username ?? user.email.split("@")[0];
@@ -497,14 +507,20 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-
-
-function showAlt(x) {
-  document.getElementById("alttext").innerHTML=x.alt;
+export async function isModerator(uid) {
+  if (!uid) return false;
+  try {
+    const snap = await getDoc(doc(db, "users", uid, "moderation", "status"));
+    return snap.exists() && snap.data().moderator === true;
+  } catch { return false; }
 }
 
-function hideAlt(x) {
-  document.getElementById("alttext").innerHTML="";
+export async function isUserBanned(uid) {
+  if (!uid) return false;
+  try {
+    const snap = await getDoc(doc(db, "users", uid, "moderation", "status"));
+    return snap.exists() && snap.data().banned === true;
+  } catch { return false; }
 }
 
 
@@ -525,7 +541,7 @@ async function initNav() {
   });
 
   // Swap login/dashboard based on auth state
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     const authLink  = document.getElementById("nav-auth-link");
     const authIcon  = document.getElementById("nav-auth-icon");
     const authLabel = document.getElementById("nav-auth-label");
@@ -539,6 +555,14 @@ async function initNav() {
       authLink.href         = "../Pages/login.html";
       authIcon.className    = "ti ti-user";
       authLabel.textContent = "Login";
+    }
+
+    const addTrailLink = container.querySelector('a[href*="add-trail"]');
+    if (addTrailLink) {
+      if (user) {
+        const banned = await isUserBanned(user.uid);
+        if (banned) addTrailLink.style.display = "none";
+      }
     }
   });
 }

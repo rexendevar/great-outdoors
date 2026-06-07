@@ -151,6 +151,7 @@
     import { getFirestore, doc, getDoc, getDocs, setDoc, serverTimestamp }   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import { query, where, orderBy, addDoc, updateDoc, deleteDoc,
              collection, firebaseConfig, onAuthStateChanged, auth }  from "../Scripts/great_outdoors.js";
+    import { isModerator, isUserBanned } from "../Scripts/great_outdoors.js";
 
     const db = getFirestore(initializeApp(firebaseConfig));
 
@@ -315,72 +316,76 @@
       return { loop: "Loop", out_and_back: "Out & Back", point_to_point: "Point to Point", lollipop: "Lollipop" }[t] ?? t;
     }
 
-    function renderEditButton(id, user) {
+    function renderEditButton(id, user, isBanned) {
       const btn = document.getElementById("edit-trail-btn");
-      btn.href  = user
-        ? `add-trail.html?edit=${id}`
-        : `login.html?redirect=trail.html?id=${id}`;
+      if (!user || isBanned) {
+        btn.style.visibility = "hidden";
+        return;
+      }
+      btn.href = `add-trail.html?edit=${id}`;
     }
-async function renderHikedButton(user, trailId, trailData) {
-  const btn = document.getElementById("hiked-trail-btn");
-  const help = document.getElementById("hiked-trail-help");
 
-  if (!btn) return;
+    async function renderHikedButton(user, trailId, trailData) {
+      const btn = document.getElementById("hiked-trail-btn");
+      const help = document.getElementById("hiked-trail-help");
 
-  btn.classList.remove("logged-out", "completed");
-  btn.removeAttribute("aria-disabled");
-  btn.onclick = null;
+      if (!btn) return;
 
-  // User is logged out
-  if (!user) {
-    btn.innerHTML = `<i class="ti ti-lock"></i> Log in to mark as hiked`;
-    btn.classList.add("logged-out");
-    btn.setAttribute("aria-disabled", "true");
+      btn.classList.remove("logged-out", "completed");
+      btn.removeAttribute("aria-disabled");
+      btn.onclick = null;
 
-    help.textContent = "You need to log in before saving this trail to your hiked list.";
+      // User is logged out
+      if (!user) {
+        btn.innerHTML = `<i class="ti ti-lock"></i> Log in to mark as hiked`;
+        btn.classList.add("logged-out");
+        btn.setAttribute("aria-disabled", "true");
 
-    btn.onclick = () => {
-      window.location.href = `login.html?redirect=${encodeURIComponent(`trail.html?id=${trailId}`)}`;
-    };
+        help.textContent = "You need to log in before saving this trail to your hiked list.";
 
-    return;
-  }
+        btn.onclick = () => {
+          window.location.href = `login.html?redirect=${encodeURIComponent(`trail.html?id=${trailId}`)}`;
+        };
 
-  // User is logged in
-  const hikedRef = doc(db, "users", user.uid, "hikedTrails", trailId);
-  const hikedSnap = await getDoc(hikedRef);
+        return;
+      }
 
-  // Trail was already marked as hiked before
-  if (hikedSnap.exists()) {
-    btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
-    btn.classList.add("completed");
-    help.textContent = "This trail is saved to your hiked trails list.";
-    return;
-  }
+      // User is logged in
+      const hikedRef = doc(db, "users", user.uid, "hikedTrails", trailId);
+      const hikedSnap = await getDoc(hikedRef);
 
-  // Trail has not been marked yet
-  btn.innerHTML = `<i class="ti ti-check"></i> I've hiked this`;
-  help.textContent = "Click to save this trail to your hiked trails list.";
+      // Trail was already marked as hiked before
+      if (hikedSnap.exists()) {
+        btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
+        btn.classList.add("completed");
+        help.textContent = "This trail is saved to your hiked trails list.";
+        return;
+      }
 
-  btn.onclick = async () => {
-    try {
-      await setDoc(hikedRef, {
-        trail_id: trailId,
-        trail_name: trailData.name ?? "Unknown Trail",
-        marked_at: serverTimestamp()
-      });
+      // Trail has not been marked yet
+      btn.innerHTML = `<i class="ti ti-check"></i> I've hiked this`;
+      help.textContent = "Click to save this trail to your hiked trails list.";
 
-      btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
-      btn.classList.add("completed");
-      help.textContent = "This trail is now saved to your hiked trails list.";
+      btn.onclick = async () => {
+        try {
+          await setDoc(hikedRef, {
+            trail_id: trailId,
+            trail_name: trailData.name ?? "Unknown Trail",
+            marked_at: serverTimestamp()
+          });
 
-    } catch (error) {
-      alert("Could not save this trail. Please try again.");
-      console.error(error);
+          btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
+          btn.classList.add("completed");
+          help.textContent = "This trail is now saved to your hiked trails list.";
+
+        } catch (error) {
+          alert("Could not save this trail. Please try again.");
+          console.error(error);
+        }
+      };
     }
-  };
-}
-    function renderComment(c, user, commentsDiv) {
+
+    function renderComment(c, user, commentsDiv, isMod = false, commentBanned = false) {
       const date = c.created_at?.toDate().toLocaleDateString() ?? "just now";
 
       const div = document.createElement("div");
@@ -398,6 +403,14 @@ async function renderHikedButton(user, trailId, trailData) {
       usernameLink.addEventListener("mouseout",  () => usernameLink.style.textDecoration = "none");
 
       meta.appendChild(usernameLink);
+      if (commentBanned) {
+        const bannedSpan = document.createElement("span");
+        bannedSpan.className = "comment-edited-badge";
+        bannedSpan.textContent = "banned";
+        bannedSpan.style.borderColor = "var(--trail-gold)";
+        bannedSpan.style.color = "var(--trail-gold)";
+        meta.appendChild(bannedSpan);
+      }
       meta.appendChild(document.createTextNode(` · ${date}`));
       if (c.edited) {
         const badge       = document.createElement("span");
@@ -470,11 +483,30 @@ async function renderHikedButton(user, trailId, trailData) {
         div.appendChild(actions);
       }
 
+      if (isMod && (!user || user.uid !== c.uid)) {
+        const modActions = document.createElement("div");
+        modActions.className = "comment-actions";
+
+        const modDelete = document.createElement("button");
+        modDelete.className   = "comment-btn mod-delete";
+        modDelete.textContent = "Delete";
+        modDelete.addEventListener("click", async () => {
+          if (!confirm(`Delete this comment by ${c.username ?? c.email}?`)) return;
+          await deleteDoc(doc(db, "comments", c.id));
+          div.remove();
+        });
+
+        modActions.appendChild(modDelete);
+        div.appendChild(modActions);
+      }
+
+      // div.appendChild(avatar);
+      // div.appendChild(commentInner);
       commentsDiv.appendChild(div);
     }
 
-    function renderCommentForm(user, db, trailId, commentsDiv, q) {
-      if (user) {
+    function renderCommentForm(user, db, trailId, commentsDiv, q, isBanned) {
+      if (user && !isBanned) {
         document.getElementById("comment-form").style.display  = "";
         document.getElementById("comment-login").style.display = "none";
 
@@ -513,6 +545,10 @@ async function renderHikedButton(user, trailId, trailData) {
           // newSnap.forEach(d => renderComment(d, user, commentsDiv));
         });
 
+      } else if (user && isBanned) {
+        document.getElementById("comment-form").style.display  = "none";
+        document.getElementById("comment-login").style.display = "";
+        document.getElementById("comment-login").textContent   = "Your account has been banned.";
       } else {
         document.getElementById("comment-form").style.display  = "none";
         document.getElementById("comment-login").style.display = "";
@@ -560,12 +596,21 @@ async function renderHikedButton(user, trailId, trailData) {
         );
         const commentSnap = await getDocs(q);
 
-       onAuthStateChanged(auth, (user) => {
-        renderEditButton(id, user);
+       onAuthStateChanged(auth, async (user) => {
+        const [isMod, isBanned] = await Promise.all([
+          isModerator(user?.uid),
+          isUserBanned(user?.uid),
+        ]);
+
+        renderEditButton(id, user, isBanned);
         renderHikedButton(user, id, trailData);
-        renderCommentForm(user, db, id, commentsDiv, q);
+        renderCommentForm(user, db, id, commentsDiv, q, isBanned);
         commentsDiv.innerHTML = "";
-        commentSnap.forEach(d => renderComment({ id: d.id, ...d.data() }, user, commentsDiv));
+        commentSnap.forEach(async d => {
+          const data = { id: d.id, ...d.data() };
+          const commentBanned = await isUserBanned(data.uid);
+          renderComment(data, user, commentsDiv, isMod, commentBanned);
+        });
       });
       }
     }
