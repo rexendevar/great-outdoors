@@ -132,6 +132,7 @@
               banBtn.textContent = "Ban User";
               banBtn.style.background = "#A03030";
               document.querySelector(".banned-badge")?.remove();
+              window.location.reload();
             } else {
               await setDoc(doc(db, "users", uid, "moderation", "status"), {
                 banned: true,
@@ -147,6 +148,7 @@
                 badge.style = "color:var(--trail-gold)";
                 document.getElementById("profile-username").after(badge);
               }
+              window.location.reload();
             }
           });
 
