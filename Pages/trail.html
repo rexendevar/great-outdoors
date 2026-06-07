@@ -321,65 +321,67 @@
         ? `add-trail.html?edit=${id}`
         : `login.html?redirect=trail.html?id=${id}`;
     }
-async function renderHikedButton(user, trailId, trailData) {
-  const btn = document.getElementById("hiked-trail-btn");
-  const help = document.getElementById("hiked-trail-help");
 
-  if (!btn) return;
+    async function renderHikedButton(user, trailId, trailData) {
+      const btn = document.getElementById("hiked-trail-btn");
+      const help = document.getElementById("hiked-trail-help");
 
-  btn.classList.remove("logged-out", "completed");
-  btn.removeAttribute("aria-disabled");
-  btn.onclick = null;
+      if (!btn) return;
 
-  // User is logged out
-  if (!user) {
-    btn.innerHTML = `<i class="ti ti-lock"></i> Log in to mark as hiked`;
-    btn.classList.add("logged-out");
-    btn.setAttribute("aria-disabled", "true");
+      btn.classList.remove("logged-out", "completed");
+      btn.removeAttribute("aria-disabled");
+      btn.onclick = null;
 
-    help.textContent = "You need to log in before saving this trail to your hiked list.";
+      // User is logged out
+      if (!user) {
+        btn.innerHTML = `<i class="ti ti-lock"></i> Log in to mark as hiked`;
+        btn.classList.add("logged-out");
+        btn.setAttribute("aria-disabled", "true");
 
-    btn.onclick = () => {
-      window.location.href = `login.html?redirect=${encodeURIComponent(`trail.html?id=${trailId}`)}`;
-    };
+        help.textContent = "You need to log in before saving this trail to your hiked list.";
 
-    return;
-  }
+        btn.onclick = () => {
+          window.location.href = `login.html?redirect=${encodeURIComponent(`trail.html?id=${trailId}`)}`;
+        };
 
-  // User is logged in
-  const hikedRef = doc(db, "users", user.uid, "hikedTrails", trailId);
-  const hikedSnap = await getDoc(hikedRef);
+        return;
+      }
 
-  // Trail was already marked as hiked before
-  if (hikedSnap.exists()) {
-    btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
-    btn.classList.add("completed");
-    help.textContent = "This trail is saved to your hiked trails list.";
-    return;
-  }
+      // User is logged in
+      const hikedRef = doc(db, "users", user.uid, "hikedTrails", trailId);
+      const hikedSnap = await getDoc(hikedRef);
 
-  // Trail has not been marked yet
-  btn.innerHTML = `<i class="ti ti-check"></i> I've hiked this`;
-  help.textContent = "Click to save this trail to your hiked trails list.";
+      // Trail was already marked as hiked before
+      if (hikedSnap.exists()) {
+        btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
+        btn.classList.add("completed");
+        help.textContent = "This trail is saved to your hiked trails list.";
+        return;
+      }
 
-  btn.onclick = async () => {
-    try {
-      await setDoc(hikedRef, {
-        trail_id: trailId,
-        trail_name: trailData.name ?? "Unknown Trail",
-        marked_at: serverTimestamp()
-      });
+      // Trail has not been marked yet
+      btn.innerHTML = `<i class="ti ti-check"></i> I've hiked this`;
+      help.textContent = "Click to save this trail to your hiked trails list.";
 
-      btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
-      btn.classList.add("completed");
-      help.textContent = "This trail is now saved to your hiked trails list.";
+      btn.onclick = async () => {
+        try {
+          await setDoc(hikedRef, {
+            trail_id: trailId,
+            trail_name: trailData.name ?? "Unknown Trail",
+            marked_at: serverTimestamp()
+          });
 
-    } catch (error) {
-      alert("Could not save this trail. Please try again.");
-      console.error(error);
+          btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
+          btn.classList.add("completed");
+          help.textContent = "This trail is now saved to your hiked trails list.";
+
+        } catch (error) {
+          alert("Could not save this trail. Please try again.");
+          console.error(error);
+        }
+      };
     }
-  };
-}
+
     function renderComment(c, user, commentsDiv) {
       const date = c.created_at?.toDate().toLocaleDateString() ?? "just now";
 
