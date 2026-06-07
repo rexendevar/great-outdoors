@@ -446,6 +446,16 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById("user-email").textContent = user.email ?? "";
 
     const userDoc = await getDoc(doc(db, "users", user.uid));
+    const modSnap = await getDoc(doc(db, "users", user.uid, "moderation", "status"));
+    const banned  = modSnap.exists() && modSnap.data().banned === true;
+
+    if (banned) {
+      document.querySelector(".profile-section").style.display = "none";
+      const msg = document.createElement("p");
+      msg.textContent = "Your account has been banned. You cannot edit your profile.";
+      msg.style.cssText = "color:var(--trail-gold);font-size:13px;margin-bottom:1rem;";
+      document.querySelector(".profile-section").insertAdjacentElement("afterend", msg);
+    }
     if (userDoc.exists()) {
       const u = userDoc.data();
       const username = u.username ?? user.email.split("@")[0];
