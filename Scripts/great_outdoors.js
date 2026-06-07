@@ -531,7 +531,7 @@ async function initNav() {
   });
 
   // Swap login/dashboard based on auth state
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     const authLink  = document.getElementById("nav-auth-link");
     const authIcon  = document.getElementById("nav-auth-icon");
     const authLabel = document.getElementById("nav-auth-label");
@@ -545,6 +545,14 @@ async function initNav() {
       authLink.href         = "../Pages/login.html";
       authIcon.className    = "ti ti-user";
       authLabel.textContent = "Login";
+    }
+
+    const addTrailLink = container.querySelector('a[href*="add-trail"]');
+    if (addTrailLink) {
+      if (user) {
+        const banned = await isUserBanned(user.uid);
+        if (banned) addTrailLink.style.display = "none";
+      }
     }
   });
 }

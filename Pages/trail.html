@@ -385,7 +385,7 @@
       };
     }
 
-    function renderComment(c, user, commentsDiv, isMod = false) {
+    function renderComment(c, user, commentsDiv, isMod = false, commentBanned = false) {
       const date = c.created_at?.toDate().toLocaleDateString() ?? "just now";
 
       const div = document.createElement("div");
@@ -403,6 +403,15 @@
       usernameLink.addEventListener("mouseout",  () => usernameLink.style.textDecoration = "none");
 
       meta.appendChild(usernameLink);
+      if (commentBanned) {
+        const bannedSpan = document.createElement("span");
+        bannedSpan.textContent = " (banned)";
+        bannedSpan.style.color = "var(--trail-gold)";
+        bannedSpan.style.fontSize = "10px";
+        bannedSpan.style.fontWeight = "700";
+        bannedSpan.style.letterSpacing = "0.06em";
+        meta.appendChild(bannedSpan);
+      }
       meta.appendChild(document.createTextNode(` · ${date}`));
       if (c.edited) {
         const badge       = document.createElement("span");
@@ -598,7 +607,11 @@
         renderHikedButton(user, id, trailData);
         renderCommentForm(user, db, id, commentsDiv, q, isBanned);
         commentsDiv.innerHTML = "";
-        commentSnap.forEach(d => renderComment({ id: d.id, ...d.data() }, user, commentsDiv, isMod));
+        commentSnap.forEach(async d => {
+          const data = { id: d.id, ...d.data() };
+          const commentBanned = await isUserBanned(data.uid);
+          renderComment(data, user, commentsDiv, isMod, commentBanned);
+        });
       });
       }
     }
