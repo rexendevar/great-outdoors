@@ -123,6 +123,13 @@
           </div>
         </div>
       </div>
+<!-- I've Hiked This Button -->
+<div class="hiked-trail-box">
+  <button id="hiked-trail-btn" class="hiked-trail-btn" type="button">
+    <i class="ti ti-check"></i> I've hiked this
+  </button>
+  <p id="hiked-trail-help" class="hiked-trail-help"></p>
+</div>
 
       <!-- Comments (full width) -->
       <div class="comments-section">
@@ -140,7 +147,7 @@
 
   <script type="module">
     import { initializeApp }                                          from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, doc, getDoc, getDocs, serverTimestamp }   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, getDocs, setDoc, serverTimestamp }   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import { query, where, orderBy, addDoc, updateDoc, deleteDoc,
              collection, firebaseConfig, onAuthStateChanged, auth }  from "../Scripts/great_outdoors.js";
 
@@ -313,7 +320,65 @@
         ? `add-trail.html?edit=${id}`
         : `login.html?redirect=trail.html?id=${id}`;
     }
+async function renderHikedButton(user, trailId, trailData) {
+  const btn = document.getElementById("hiked-trail-btn");
+  const help = document.getElementById("hiked-trail-help");
 
+  if (!btn) return;
+
+  btn.classList.remove("logged-out", "completed");
+  btn.removeAttribute("aria-disabled");
+  btn.onclick = null;
+
+  // User is logged out
+  if (!user) {
+    btn.innerHTML = `<i class="ti ti-lock"></i> Log in to mark as hiked`;
+    btn.classList.add("logged-out");
+    btn.setAttribute("aria-disabled", "true");
+
+    help.textContent = "You need to log in before saving this trail to your hiked list.";
+
+    btn.onclick = () => {
+      window.location.href = `login.html?redirect=${encodeURIComponent(`trail.html?id=${trailId}`)}`;
+    };
+
+    return;
+  }
+
+  // User is logged in
+  const hikedRef = doc(db, "users", user.uid, "hikedTrails", trailId);
+  const hikedSnap = await getDoc(hikedRef);
+
+  // Trail was already marked as hiked before
+  if (hikedSnap.exists()) {
+    btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
+    btn.classList.add("completed");
+    help.textContent = "This trail is saved to your hiked trails list.";
+    return;
+  }
+
+  // Trail has not been marked yet
+  btn.innerHTML = `<i class="ti ti-check"></i> I've hiked this`;
+  help.textContent = "Click to save this trail to your hiked trails list.";
+
+  btn.onclick = async () => {
+    try {
+      await setDoc(hikedRef, {
+        trail_id: trailId,
+        trail_name: trailData.name ?? "Unknown Trail",
+        marked_at: serverTimestamp()
+      });
+
+      btn.innerHTML = `<i class="ti ti-circle-check"></i> Hiked`;
+      btn.classList.add("completed");
+      help.textContent = "This trail is now saved to your hiked trails list.";
+
+    } catch (error) {
+      alert("Could not save this trail. Please try again.");
+      console.error(error);
+    }
+  };
+}
     function renderComment(c, user, commentsDiv) {
       const date = c.created_at?.toDate().toLocaleDateString() ?? "just now";
 
@@ -463,7 +528,8 @@
         document.getElementById("status").style.display  = "none";
         document.getElementById("content").style.display = "";
 
-        renderTrail(snap.data(), id);
+       const trailData = snap.data();
+renderTrail(trailData, id);
 
         const commentsDiv = document.getElementById("comments");
         const q = query(
@@ -477,12 +543,13 @@
           ...d.data()
         }));
 
-        onAuthStateChanged(auth, (user) => {
-          renderEditButton(id, user);
-          renderCommentForm(user, db, id, commentsDiv, q);
-          commentsDiv.innerHTML = "";
-          commentsWithUsers.forEach(d => renderComment(d, user, commentsDiv));
-        });
+       onAuthStateChanged(auth, (user) => {
+  renderEditButton(id, user);
+  renderHikedButton(user, id, trailData);
+  renderCommentForm(user, db, id, commentsDiv, q);
+  commentsDiv.innerHTML = "";
+  commentsWithUsers.forEach(d => renderComment(d, user, commentsDiv));
+});
       }
     }
   </script>
