@@ -475,7 +475,7 @@ async function renderHikedButton(user, trailId, trailData) {
           const userSnap = await getDoc(doc(db, "users", user.uid));
           const username = userSnap.exists() ? userSnap.data().username : user.email;
 
-          await addDoc(collection(db, "comments"), {
+          const ref = await addDoc(collection(db, "comments"), {
             trail_id:   trailId,
             uid:        user.uid,
             email:      user.email,   // keep for backwards compat if you want
@@ -485,11 +485,22 @@ async function renderHikedButton(user, trailId, trailData) {
           });
 
           document.getElementById("comment-input").value = "";
+          // Build a fake doc snapshot to pass to renderComment
+          const fakeDoc = {
+            id:       ref.id,
+            uid:      user.uid,
+            email:    user.email,
+            username: username,
+            contents: contents,
+            edited:   false,
+            created_at: { toDate: () => new Date() },
+          };
+          renderComment(fakeDoc, user, commentsDiv);
 
-          // Re-fetch and re-render all comments
-          commentsDiv.innerHTML    = "";
-          const newSnap            = await getDocs(q);
-          newSnap.forEach(d => renderComment(d, user, commentsDiv));
+          // // Re-fetch and re-render all comments
+          // commentsDiv.innerHTML    = "";
+          // const newSnap            = await getDocs(q);
+          // newSnap.forEach(d => renderComment(d, user, commentsDiv));
         });
 
       } else {
@@ -528,8 +539,8 @@ async function renderHikedButton(user, trailId, trailData) {
         document.getElementById("status").style.display  = "none";
         document.getElementById("content").style.display = "";
 
-       const trailData = snap.data();
-renderTrail(trailData, id);
+        const trailData = snap.data();
+        renderTrail(trailData, id);
 
         const commentsDiv = document.getElementById("comments");
         const q = query(
@@ -538,18 +549,14 @@ renderTrail(trailData, id);
           orderBy("created_at", "asc")
         );
         const commentSnap = await getDocs(q);
-        const commentsWithUsers = commentSnap.docs.map(d => ({
-          id: d.id,
-          ...d.data()
-        }));
 
        onAuthStateChanged(auth, (user) => {
-  renderEditButton(id, user);
-  renderHikedButton(user, id, trailData);
-  renderCommentForm(user, db, id, commentsDiv, q);
-  commentsDiv.innerHTML = "";
-  commentsWithUsers.forEach(d => renderComment(d, user, commentsDiv));
-});
+        renderEditButton(id, user);
+        renderHikedButton(user, id, trailData);
+        renderCommentForm(user, db, id, commentsDiv, q);
+        commentsDiv.innerHTML = "";
+        commentSnap.forEach(d => renderComment({ id: d.id, ...d.data() }, user, commentsDiv));
+      });
       }
     }
   </script>
