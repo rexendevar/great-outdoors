@@ -517,7 +517,7 @@
   flex: 1;
   min-width: 0;
 }
-  .trail-weather {
+  /* .trail-weather {
     flex-direction: row;
     margin: 0.75rem 1rem;
   }
@@ -537,4 +537,4 @@
 
   .weather-temps { flex-direction: column; gap: 1px; }
   .weather-rain  { font-size: 9px; }
-  .weather-day   { font-size: 9px; }
+  .weather-day   { font-size: 9px; } */
