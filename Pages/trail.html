@@ -151,6 +151,7 @@
     import { getFirestore, doc, getDoc, getDocs, setDoc, serverTimestamp }   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import { query, where, orderBy, addDoc, updateDoc, deleteDoc,
              collection, firebaseConfig, onAuthStateChanged, auth }  from "../Scripts/great_outdoors.js";
+    import { isModerator, isUserBanned } from "../Scripts/great_outdoors.js";
 
     const db = getFirestore(initializeApp(firebaseConfig));
 
@@ -382,7 +383,7 @@
       };
     }
 
-    function renderComment(c, user, commentsDiv) {
+    function renderComment(c, user, commentsDiv, isMod = false) {
       const date = c.created_at?.toDate().toLocaleDateString() ?? "just now";
 
       const div = document.createElement("div");
@@ -472,6 +473,25 @@
         div.appendChild(actions);
       }
 
+      if (isMod && (!user || user.uid !== c.uid)) {
+        const modActions = document.createElement("div");
+        modActions.className = "comment-actions";
+
+        const modDelete = document.createElement("button");
+        modDelete.className   = "comment-btn mod-delete";
+        modDelete.textContent = "Delete";
+        modDelete.addEventListener("click", async () => {
+          if (!confirm(`Delete this comment by ${c.username ?? c.email}?`)) return;
+          await deleteDoc(doc(db, "comments", c.id));
+          div.remove();
+        });
+
+        modActions.appendChild(modDelete);
+        commentInner.appendChild(modActions);
+      }
+
+      // div.appendChild(avatar);
+      // div.appendChild(commentInner);
       commentsDiv.appendChild(div);
     }
 
@@ -562,12 +582,17 @@
         );
         const commentSnap = await getDocs(q);
 
-       onAuthStateChanged(auth, (user) => {
-        renderEditButton(id, user);
+       onAuthStateChanged(auth, async (user) => {
+        const [isMod, isBanned] = await Promise.all([
+          isModerator(user?.uid),
+          isUserBanned(user?.uid),
+        ]);
+
+        renderEditButton(id, user, isBanned);
         renderHikedButton(user, id, trailData);
-        renderCommentForm(user, db, id, commentsDiv, q);
+        renderCommentForm(user, db, id, commentsDiv, q, isBanned);
         commentsDiv.innerHTML = "";
-        commentSnap.forEach(d => renderComment({ id: d.id, ...d.data() }, user, commentsDiv));
+        commentSnap.forEach(d => renderComment({ id: d.id, ...d.data() }, user, commentsDiv, isMod));
       });
       }
     }

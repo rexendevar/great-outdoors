@@ -265,6 +265,10 @@
   }
 }
 
+
+.comment-btn.mod-delete { color: #C4563A; }
+.comment-btn.mod-delete:hover { color: #a03030; }
+
 .comments-section {
   grid-column: 1 / -1;
   border-top: 1px dashed #C8C4BE;

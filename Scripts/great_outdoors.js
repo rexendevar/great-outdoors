@@ -497,14 +497,20 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-
-
-function showAlt(x) {
-  document.getElementById("alttext").innerHTML=x.alt;
+export async function isModerator(uid) {
+  if (!uid) return false;
+  try {
+    const snap = await getDoc(doc(db, "users", uid, "moderation", "status"));
+    return snap.exists() && snap.data().moderator === true;
+  } catch { return false; }
 }
 
-function hideAlt(x) {
-  document.getElementById("alttext").innerHTML="";
+export async function isUserBanned(uid) {
+  if (!uid) return false;
+  try {
+    const snap = await getDoc(doc(db, "users", uid, "moderation", "status"));
+    return snap.exists() && snap.data().banned === true;
+  } catch { return false; }
 }
 
 
