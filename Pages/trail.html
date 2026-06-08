@@ -567,7 +567,7 @@
       };
     }
 
-function renderComment(c, user, commentsDiv, isMod = false, commentBanned = false, replies = []) {
+function renderComment(c, user, commentsDiv, isMod = false, commentBanned = false, replies = [], allReplies = []) {
   const date = c.created_at?.toDate().toLocaleDateString() ?? "just now";
 
   const div = document.createElement("div");
@@ -716,7 +716,6 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
     actions.appendChild(editBtn);
   }
 
-  commentInner.appendChild(actions);
 
   // Moderator delete button
   if (isMod && (!user || user.uid !== c.uid)) {
@@ -743,14 +742,14 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
     replyContainer.className = "reply-container";
 
     replies.forEach(reply => {
-      renderReply(reply, user, replyContainer, isMod);
-    });
+  renderReply(reply, user, replyContainer, isMod, allReplies);
+});
 
     commentsDiv.appendChild(replyContainer);
   }
 }
 
-function renderReply(reply, user, replyContainer, isMod = false) {
+function renderReply(reply, user, replyContainer, isMod = false, allReplies = []) {
   const date = reply.created_at?.toDate().toLocaleDateString() ?? "just now";
 
   const replyDiv = document.createElement("div");
@@ -801,13 +800,27 @@ function renderReply(reply, user, replyContainer, isMod = false) {
   body.className = "comment-body";
   body.textContent = reply.contents;
 
-  replyInner.appendChild(meta);
-  replyInner.appendChild(body);
+  const actions = document.createElement("div");
+  actions.className = "comment-actions";
 
+  // Reply button for replying to a reply
+  const replyBtn = document.createElement("button");
+  replyBtn.className = "comment-btn reply";
+  replyBtn.textContent = "Reply";
+
+  replyBtn.addEventListener("click", () => {
+    if (!user) {
+      window.location.href = `login.html?redirect=${encodeURIComponent(`trail.html?id=${id}`)}`;
+      return;
+    }
+
+    showReplyForm(reply, user, replyInner);
+  });
+
+  actions.appendChild(replyBtn);
+
+  // Edit/delete buttons for the owner of the reply
   if (user && user.uid === reply.uid) {
-    const actions = document.createElement("div");
-    actions.className = "comment-actions";
-
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "comment-btn delete";
     deleteBtn.textContent = "Delete";
@@ -888,13 +901,10 @@ function renderReply(reply, user, replyContainer, isMod = false) {
 
     actions.appendChild(deleteBtn);
     actions.appendChild(editBtn);
-    replyInner.appendChild(actions);
   }
 
+  // Moderator delete
   if (isMod && (!user || user.uid !== reply.uid)) {
-    const modActions = document.createElement("div");
-    modActions.className = "comment-actions";
-
     const modDelete = document.createElement("button");
     modDelete.className = "comment-btn mod-delete";
     modDelete.textContent = "Delete";
@@ -906,13 +916,30 @@ function renderReply(reply, user, replyContainer, isMod = false) {
       replyDiv.remove();
     });
 
-    modActions.appendChild(modDelete);
-    replyInner.appendChild(modActions);
+    actions.appendChild(modDelete);
   }
+
+  replyInner.appendChild(meta);
+  replyInner.appendChild(body);
+  replyInner.appendChild(actions);
 
   replyDiv.appendChild(avatar);
   replyDiv.appendChild(replyInner);
   replyContainer.appendChild(replyDiv);
+
+  // Replies under this reply
+  const nestedReplies = allReplies.filter(r => r.parent_id === reply.id);
+
+  if (nestedReplies.length > 0) {
+    const nestedContainer = document.createElement("div");
+    nestedContainer.className = "reply-container nested-reply-container";
+
+    nestedReplies.forEach(nestedReply => {
+      renderReply(nestedReply, user, nestedContainer, isMod, allReplies);
+    });
+
+    replyContainer.appendChild(nestedContainer);
+  }
 }
 
 function showReplyForm(parentComment, user, parentContainer) {
@@ -1105,14 +1132,15 @@ function showReplyForm(parentComment, user, parentContainer) {
         parentComments.forEach((c, i) => {
           const repliesForComment = replyComments.filter(reply => reply.parent_id === c.id);
 
-          renderComment(
-            c,
-            user,
-            commentsDiv,
-            isMod,
-            bannedStatuses[i],
-            repliesForComment
-          );
+         renderComment(
+          c,
+          user,
+          commentsDiv,
+          isMod,
+          bannedStatuses[i],
+          repliesForComment,
+          replyComments
+        );
         });
       });
       }

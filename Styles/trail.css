@@ -902,3 +902,15 @@
     width: 100%;
   }
 }
+
+.nested-reply-container {
+  margin-left: 1.25rem;
+  max-width: calc(100% - 1.25rem);
+}
+
+@media (max-width: 680px) {
+  .nested-reply-container {
+    margin-left: 0.5rem;
+    max-width: calc(100% - 0.5rem);
+  }
+}
