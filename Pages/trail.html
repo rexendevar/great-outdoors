@@ -461,9 +461,27 @@
       div.className = "comment-item";
       div.id        = `comment-${c.id}`;
 
-      const meta       = document.createElement("div");
-      meta.className   = "comment-meta";
-      // meta.textContent = `${c.username ?? c.email} · ${date}`;
+      // Avatar
+      const avatar = document.createElement("div");
+      avatar.className = "comment-avatar";
+      if (c.avatar) {
+        const img = document.createElement("img");
+        img.src = c.avatar;
+        img.alt = c.username ?? "";
+        avatar.appendChild(img);
+      } else {
+        avatar.textContent = (c.username ?? c.email ?? "?").charAt(0).toUpperCase();
+      }
+      avatar.style.cursor = "pointer";
+      avatar.addEventListener("click", () => {
+        window.location.href = `user.html?uid=${c.uid}`;
+      });
+
+      const commentInner = document.createElement("div");
+      commentInner.className = "comment-inner";
+
+      const meta = document.createElement("div");
+      meta.className = "comment-meta";
       const usernameLink = document.createElement("a");
       usernameLink.href      = `user.html?uid=${c.uid}`;
       usernameLink.textContent = c.username ?? c.email;
@@ -492,8 +510,8 @@
       body.className   = "comment-body";
       body.textContent = c.contents;
 
-      div.appendChild(meta);
-      div.appendChild(body);
+      commentInner.appendChild(meta);
+      commentInner.appendChild(body);
 
       if (user && user.uid === c.uid) {
         const actions     = document.createElement("div");
@@ -532,7 +550,7 @@
               meta.appendChild(badge);
             }
             actions.replaceChildren(deleteBtn, editBtn);
-            div.replaceChildren(meta, body, actions);
+            commentInner.replaceChildren(meta, body, actions);
           });
 
           const cancelBtn       = document.createElement("button");
@@ -540,16 +558,16 @@
           cancelBtn.textContent = "Cancel";
           cancelBtn.addEventListener("click", () => {
             actions.replaceChildren(deleteBtn, editBtn);
-            div.replaceChildren(meta, body, actions);
+            commentInner.replaceChildren(meta, body, actions);
           });
 
           actions.replaceChildren(saveBtn, cancelBtn);
-          div.replaceChildren(meta, input, actions);
+          commentInner.replaceChildren(meta, input, actions);
         });
 
         actions.appendChild(deleteBtn);
         actions.appendChild(editBtn);
-        div.appendChild(actions);
+        commentInner.appendChild(actions);
       }
 
       if (isMod && (!user || user.uid !== c.uid)) {
@@ -566,13 +584,16 @@
         });
 
         modActions.appendChild(modDelete);
-        div.appendChild(modActions);
+        commentInner.appendChild(modActions);
       }
 
       // div.appendChild(avatar);
       // div.appendChild(commentInner);
+      div.appendChild(avatar);
+      div.appendChild(commentInner);
       commentsDiv.appendChild(div);
     }
+
 
     function renderCommentForm(user, db, trailId, commentsDiv, q, isBanned) {
       if (user && !isBanned) {
@@ -585,12 +606,14 @@
 
           const userSnap = await getDoc(doc(db, "users", user.uid));
           const username = userSnap.exists() ? userSnap.data().username : user.email;
+          const avatar   = userSnap.exists() ? userSnap.data().avatar ?? null : null;
 
           const ref = await addDoc(collection(db, "comments"), {
             trail_id:   trailId,
             uid:        user.uid,
-            email:      user.email,   // keep for backwards compat if you want
-            username:   username,     // add this
+            email:      user.email,
+            username:   username,
+            avatar:     avatar,
             contents:   contents,
             created_at: serverTimestamp(),
           });
@@ -598,12 +621,13 @@
           document.getElementById("comment-input").value = "";
           // Build a fake doc snapshot to pass to renderComment
           const fakeDoc = {
-            id:       ref.id,
-            uid:      user.uid,
-            email:    user.email,
-            username: username,
-            contents: contents,
-            edited:   false,
+            id:         ref.id,
+            uid:        user.uid,
+            email:      user.email,
+            username:   username,
+            avatar:     avatar,
+            contents:   contents,
+            edited:     false,
             created_at: { toDate: () => new Date() },
           };
           renderComment(fakeDoc, user, commentsDiv);

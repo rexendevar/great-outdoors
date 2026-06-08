@@ -408,7 +408,10 @@ window.saveProfile = async function () {
       const commentQ = query(collection(db, "comments"), where("uid", "==", user.uid));
       const commentSnap = await getDocs(commentQ);
       const batch = writeBatch(db);
-      commentSnap.forEach(d => batch.update(d.ref, { username }));
+      commentSnap.forEach(d => batch.update(d.ref, {
+        username,
+        avatar: avatar || null,
+      }));
 
       // Trails
       const trailQ = query(collection(db, "trails"), where("updated_by_uid", "==", user.uid));
