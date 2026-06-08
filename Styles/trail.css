@@ -551,8 +551,8 @@
   cursor: pointer;
   transition: color 0.2s;
 }
-.comment-btn:hover        { color: var(--trail-shade); }
-.comment-btn.delete:hover { color: #A03030; }
+.comment-btn:hover        { color: var(--trail-cloud); }
+.comment-btn.delete:hover { color: var(--trail-ray); }
 
 .comment-edit-area {
   width: 100%;
@@ -771,11 +771,11 @@
 /* Replies sit under the parent comment, not over the page */
 .reply-container {
   margin-top: 0.65rem;
-  margin-left: 3.5rem;
+  margin-left: 0.5rem;
   padding-left: 1rem;
   border-left: 2px solid var(--trail-bright);
   box-sizing: border-box;
-  max-width: calc(100% - 3.5rem);
+  max-width: calc(100% - 0.5rem);
 }
 
 /* Replies use the same color as regular comments */
@@ -882,7 +882,7 @@
 }
 
 .comment-btn.reply:hover {
-  color: var(--trail-shade);
+  color: var(--trail-cloud);
 }
 
 .comment-edit-area {

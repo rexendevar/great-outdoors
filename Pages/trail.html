@@ -720,22 +720,18 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
 
   // Moderator delete button
   if (isMod && (!user || user.uid !== c.uid)) {
-    const modActions = document.createElement("div");
-    modActions.className = "comment-actions";
-
     const modDelete = document.createElement("button");
-    modDelete.className = "comment-btn mod-delete";
+    modDelete.className   = "comment-btn mod-delete";
     modDelete.textContent = "Delete";
-
     modDelete.addEventListener("click", async () => {
       if (!confirm(`Delete this comment by ${c.username ?? c.email}?`)) return;
       await deleteDoc(doc(db, "comments", c.id));
       div.remove();
     });
-
-    modActions.appendChild(modDelete);
-    commentInner.appendChild(modActions);
+    actions.appendChild(modDelete);
   }
+
+  commentInner.appendChild(actions);
 
   div.appendChild(avatar);
   div.appendChild(commentInner);
@@ -1030,7 +1026,7 @@ function showReplyForm(parentComment, user, parentContainer) {
         document.getElementById("comment-form").style.display  = "none";
         document.getElementById("comment-login").style.display = "";
         document.getElementById("comment-login").textContent   = "Your account has been banned.";
-      
+
       } else {
       document.getElementById("comment-form").style.display  = "none";
       document.getElementById("comment-login").style.display = "";
@@ -1093,7 +1089,7 @@ function showReplyForm(parentComment, user, parentContainer) {
         renderEditButton(id, user, isBanned);
         renderHikedButton(user, id, trailData);
         renderCommentForm(user, db, id, commentsDiv, q, isBanned);
-    
+
         commentsDiv.innerHTML = "";
 
         const freshCommentSnap = await getDocs(q);
