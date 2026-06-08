@@ -434,7 +434,7 @@
   flex-direction: column;
 }
 .recommended-card:hover {
-  border-color: var(--trail-gold);
+  border-color: var(--trail-ray);
   transform: translateY(-2px);
 }
 
@@ -448,7 +448,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--trail-stone);
+  color: var(--trail-mist);
   font-size: 1.5rem;
 }
 
@@ -464,20 +464,20 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--trail-gold);
+  color: var(--trail-ray);
 }
 
 .recommended-card-name {
   font-family: 'Playfair Display', serif;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   line-height: 1.2;
 }
 
 .recommended-card-stats {
   font-size: 10px;
-  color: var(--trail-stone);
+  color: var(--trail-mist);
 }
 
 @media (max-width: 680px) {
