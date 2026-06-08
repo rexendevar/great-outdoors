@@ -155,6 +155,10 @@
   color: var(--trail-stone);
 }
 
+#images {
+  height: 100%;
+}
+
 /* ── Gallery ── */
 .images-gallery {
   display: grid;
@@ -162,6 +166,7 @@
   margin-bottom: 1.5rem;
   border-radius: 10px;
   overflow: hidden;
+  height: 100%;
 }
 
 .images-gallery.count-1 {
@@ -206,11 +211,14 @@
   overflow: hidden;
   cursor: pointer;
   position: relative;
+  height: auto !important;
+  min-height: 120px;
 }
 
 .gallery-item img {
   width: 100%;
   height: 100%;
+  min-height:120px;
   object-fit: cover;
   display: block;
   transition: transform 0.25s;
@@ -269,18 +277,33 @@
 }
 
 @media (max-width: 680px) {
-  .images-gallery.count-3,
-  .images-gallery.count-5 {
+  .trail-body .images-gallery {
     grid-template-columns: 1fr 1fr;
+    width: 100%;
   }
-  .images-gallery.count-6 {
-    grid-template-columns: 1fr 1fr;
+
+  .trail-body .gallery-item {
+    width: 100%;
+    height: 140px;
+    min-width: 0;
   }
-  .images-gallery.count-5 .gallery-item:first-child,
-  .images-gallery.count-5 .gallery-item:nth-child(4) {
-    grid-column: unset;
+
+  .trail-body .gallery-item img {
+    width: 100% !important;
+    height: 140px;
+    object-fit: cover;
+    display: block;
   }
 }
+
+/* @media (max-width: 680px) {
+  .trail-body .gallery-item img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    min-height: unset;
+  }
+} */
 
 #last-edited {
   font-size: 11px;

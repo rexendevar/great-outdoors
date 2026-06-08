@@ -405,6 +405,15 @@
           img.src = urls[current];
         });
 
+        function handleKey(e) {
+          if (e.key === "ArrowRight") { current = (current + 1) % urls.length; img.src = urls[current]; counter.textContent = `${current + 1} / ${urls.length}`; }
+          if (e.key === "ArrowLeft")  { current = (current - 1 + urls.length) % urls.length; img.src = urls[current]; counter.textContent = `${current + 1} / ${urls.length}`; }
+          if (e.key === "Escape") overlay.remove();
+        }
+        document.addEventListener("keydown", handleKey);
+        overlay.addEventListener("click", e => { if (e.target === overlay) { document.removeEventListener("keydown", handleKey); overlay.remove(); } });
+        close.addEventListener("click", () => { document.removeEventListener("keydown", handleKey); overlay.remove(); });
+
         const counter = document.createElement("div");
         counter.className = "lightbox-counter";
         counter.textContent = urls.length > 1 ? `${current + 1} / ${urls.length}` : "";
