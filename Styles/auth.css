@@ -131,7 +131,7 @@
   outline: none;
 }
 .field-input:focus         { border-color: var(--trail-shade); background: var(--trail-cold); }
-.field-input::placeholder  { color: #B5AFA8; }
+.field-input::placeholder  { color: var(--trail-fog); }
 
 .forgot-link {
   display: inline;
