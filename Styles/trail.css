@@ -741,3 +741,164 @@
   flex: 1;
   min-width: 0;
 }
+/* ============================================
+   COMMENT REPLIES - CLEAN FIXED VERSION
+   ============================================ */
+
+.comments-section {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.comment-item,
+.reply-item {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.comment-inner {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.comment-body {
+  overflow-wrap: anywhere;
+}
+
+/* Replies sit under the parent comment, not over the page */
+.reply-container {
+  margin-top: 0.65rem;
+  margin-left: 3.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--trail-bright);
+  box-sizing: border-box;
+  max-width: calc(100% - 3.5rem);
+}
+
+/* Replies use the same color as regular comments */
+.reply-item {
+  background: var(--trail-cold);
+  border: 1px solid var(--trail-bright);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.6rem;
+  box-shadow: 0 1px 6px rgba(59,42,26,0.07);
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.reply-item .comment-avatar {
+  width: 32px;
+  height: 32px;
+  font-size: 0.75rem;
+}
+
+/* Completely remove the "Replying to..." label */
+.reply-indicator,
+.replying-to {
+  display: none;
+}
+
+/* Reply form now stays inside the comment text area */
+.reply-form {
+  margin-top: 0.75rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.85rem 1rem;
+  background: var(--trail-cold);
+  border: 1px solid var(--trail-bright);
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(59,42,26,0.07);
+}
+
+.reply-input {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1.5px solid var(--trail-bright);
+  border-radius: 8px;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--trail-cloud);
+  background: var(--trail-night);
+  resize: vertical;
+  outline: none;
+  margin-bottom: 0.5rem;
+}
+
+.reply-input:focus {
+  border-color: var(--trail-shade);
+  background: var(--trail-cold);
+}
+
+.reply-form-actions,
+.comment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.reply-submit-btn,
+.reply-cancel-btn {
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+}
+
+.reply-submit-btn {
+  color: var(--trail-ray);
+}
+
+.reply-submit-btn:hover {
+  color: var(--trail-shade);
+}
+
+.reply-cancel-btn {
+  color: var(--trail-fog);
+}
+
+.reply-cancel-btn:hover {
+  color: #A03030;
+}
+
+.comment-btn.reply {
+  color: var(--trail-fog);
+}
+
+.comment-btn.reply:hover {
+  color: var(--trail-shade);
+}
+
+.comment-edit-area {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 680px) {
+  .reply-container {
+    margin-left: 0.75rem;
+    padding-left: 0.75rem;
+    max-width: calc(100% - 0.75rem);
+  }
+
+  .reply-form {
+    width: 100%;
+  }
+}
