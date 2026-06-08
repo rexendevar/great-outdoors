@@ -381,6 +381,44 @@
       }
     }
 
+
+    async function renderRecommendedTrails(currentId, currentTrail) {
+      const snap = await getDocs(collection(db, "trails"));
+      const others = snap.docs
+        .filter(d => d.id !== currentId)
+        .map(d => ({ id: d.id, ...d.data() }))
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+
+      if (!others.length) return;
+
+      const section = document.createElement("div");
+      section.className = "recommended-section";
+      section.innerHTML = `<span class="section-label">More Trails You Might Like</span>`;
+
+      others.forEach(t => {
+        const a = document.createElement("a");
+        a.className = "recommended-card";
+        a.href = `trail.html?id=${t.id}`;
+
+        const img = t.images?.length
+          ? `<img src="${t.images[0]}" alt="${t.name}">`
+          : `<div class="recommended-card-placeholder"><i class="ti ti-mountain"></i></div>`;
+
+        a.innerHTML = `
+          ${img}
+          <div class="recommended-card-body">
+            <span class="recommended-card-type">${formatType(t.trail_type)}</span>
+            <span class="recommended-card-name">${t.name}</span>
+            <span class="recommended-card-stats">${t.length_mi} mi · ${t.elevation_gain?.toLocaleString()} ft gain</span>
+          </div>
+        `;
+        section.appendChild(a);
+      });
+
+      document.querySelector(".comments-section").before(section);
+    }
+
     function formatType(t) {
       return { loop: "Loop", out_and_back: "Out & Back", point_to_point: "Point to Point", lollipop: "Lollipop" }[t] ?? t;
     }
@@ -656,6 +694,7 @@
 
         const trailData = snap.data();
         renderTrail(trailData, id);
+        renderRecommendedTrails(id, trailData);
 
         const commentsDiv = document.getElementById("comments");
         const q = query(
