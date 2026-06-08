@@ -699,10 +699,14 @@
         renderHikedButton(user, id, trailData);
         renderCommentForm(user, db, id, commentsDiv, q, isBanned);
         commentsDiv.innerHTML = "";
-        commentSnap.forEach(async d => {
-          const data = { id: d.id, ...d.data() };
-          const commentBanned = await isUserBanned(data.uid);
-          renderComment(data, user, commentsDiv, isMod, commentBanned);
+        const commentDataList = commentSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        const bannedStatuses = await Promise.all(
+          commentDataList.map(c => isUserBanned(c.uid))
+        );
+
+        commentDataList.forEach((c, i) => {
+          renderComment(c, user, commentsDiv, isMod, bannedStatuses[i]);
         });
       });
       }
