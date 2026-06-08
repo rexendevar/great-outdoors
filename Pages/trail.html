@@ -350,13 +350,79 @@
 
       // Images
       const imagesDiv = document.getElementById("images");
-      (t.images ?? []).forEach(url => {
-        const img   = document.createElement("img");
-        img.src     = url;
-        img.alt     = t.name;
-        img.loading = "lazy";
-        imagesDiv.appendChild(img);
-      });
+      const urls = (t.images ?? []).slice(0, 6);
+
+      if (urls.length) {
+        imagesDiv.className = `images-gallery count-${urls.length}`;
+
+        urls.forEach((url, i) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "gallery-item";
+          wrapper.dataset.index = i;
+
+          const img = document.createElement("img");
+          img.src     = url;
+          img.alt     = t.name;
+          img.loading = "lazy";
+
+          wrapper.appendChild(img);
+          wrapper.addEventListener("click", () => openLightbox(urls, i));
+          imagesDiv.appendChild(wrapper);
+        });
+      }
+
+      // Lightbox
+      function openLightbox(urls, startIndex) {
+        let current = startIndex;
+
+        const overlay = document.createElement("div");
+        overlay.className = "lightbox-overlay";
+
+        const img = document.createElement("img");
+        img.className = "lightbox-img";
+        img.src = urls[current];
+
+        const close = document.createElement("button");
+        close.className   = "lightbox-btn lightbox-close";
+        close.innerHTML   = "<i class='ti ti-x'></i>";
+        close.addEventListener("click", () => overlay.remove());
+
+        const prev = document.createElement("button");
+        prev.className  = "lightbox-btn lightbox-prev";
+        prev.innerHTML  = "<i class='ti ti-chevron-left'></i>";
+        prev.style.display = urls.length < 2 ? "none" : "";
+        prev.addEventListener("click", () => {
+          current = (current - 1 + urls.length) % urls.length;
+          img.src = urls[current];
+        });
+
+        const next = document.createElement("button");
+        next.className  = "lightbox-btn lightbox-next";
+        next.innerHTML  = "<i class='ti ti-chevron-right'></i>";
+        next.style.display = urls.length < 2 ? "none" : "";
+        next.addEventListener("click", () => {
+          current = (current + 1) % urls.length;
+          img.src = urls[current];
+        });
+
+        const counter = document.createElement("div");
+        counter.className = "lightbox-counter";
+        counter.textContent = urls.length > 1 ? `${current + 1} / ${urls.length}` : "";
+
+        // Update counter on nav
+        [prev, next].forEach(btn => btn.addEventListener("click", () => {
+          counter.textContent = `${current + 1} / ${urls.length}`;
+        }));
+
+        overlay.addEventListener("click", e => { if (e.target === overlay) overlay.remove(); });
+
+        overlay.appendChild(img);
+        overlay.appendChild(close);
+        overlay.appendChild(prev);
+        overlay.appendChild(next);
+        overlay.appendChild(counter);
+        document.body.appendChild(overlay);
+      }
 
       // Last edited
       if (t.updated_by && t.updated_at) {
