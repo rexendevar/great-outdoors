@@ -104,7 +104,7 @@
           const badge = document.createElement("div");
           badge.className   = "banned-badge";
           badge.textContent = "(banned)";
-          badge.style = "color:var(--trail-gold)";
+          badge.style = "color:var(--trail-ray)";
           document.getElementById("profile-username").after(badge);
         }
 
@@ -122,7 +122,7 @@
 
           const banBtn = document.createElement("button");
           banBtn.className   = "submit-btn";
-          banBtn.style.background = isBanned ? "var(--trail-sage)" : "var(--trail-gold)";
+          banBtn.style.background = isBanned ? "var(--trail-mist)" : "var(--trail-ray)";
           banBtn.textContent = isBanned ? "Unban User" : "Ban User";
 
           banBtn.addEventListener("click", async () => {
@@ -140,12 +140,12 @@
                 banned_by: viewer.uid,
               });
               banBtn.textContent = "Unban User";
-              banBtn.style.background = "var(--trail-sage)";
+              banBtn.style.background = "var(--trail-mist)";
               if (!document.querySelector(".banned-badge")) {
                 const badge = document.createElement("div");
                 badge.className   = "banned-badge";
                 badge.textContent = "(banned)";
-                badge.style = "color:var(--trail-gold)";
+                badge.style = "color:var(--trail-ray)";
                 document.getElementById("profile-username").after(badge);
               }
               window.location.reload();

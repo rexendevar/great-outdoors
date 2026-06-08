@@ -4,7 +4,7 @@
    ============================================ */
 
 /* .trail-header {
-  background: var(--trail-pine);
+  background: var(--trail-shade);
   padding: 2.5rem 2rem 2rem;
   position: relative;
   overflow: hidden;
@@ -15,7 +15,7 @@
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 5px;
-  background: linear-gradient(90deg, var(--trail-pine) 0%, var(--trail-sage) 50%, var(--trail-gold) 100%);
+  background: linear-gradient(90deg, var(--trail-shade) 0%, var(--trail-mist) 50%, var(--trail-ray) 100%);
 }
 .header-mountains {
   position: absolute;
@@ -74,13 +74,13 @@
   margin-bottom: 1rem;
   transition: color 0.2s;
 }
-#edit-trail-btn:hover { color: #252A3D; }
+#edit-trail-btn:hover { color: var(--trail-cold); }
 
 #name {
   font-family: 'Playfair Display', serif;
   font-size: clamp(1.8rem, 5vw, 2.8rem);
   font-weight: 600;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   margin-bottom: 0.4rem;
   line-height: 1.15;
 }
@@ -89,11 +89,11 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--trail-gold);
+  color: var(--trail-ray);
 }
 
 .stat-strip {
-  background: #252A3D;
+  background: var(--trail-cold);
   border-bottom: 1px solid #E8E5E0;
   display: flex;
   justify-content: center;
@@ -109,8 +109,8 @@
   min-width: 130px;
 }
 .stat-strip-item:last-child { border-right: none; }
-.stat-strip-val { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 600; color: var(--trail-pine); }
-.stat-strip-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--trail-stone); margin-top: 2px; }
+.stat-strip-val { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 600; color: var(--trail-shade); }
+.stat-strip-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--trail-fog); margin-top: 2px; }
 
 .trail-body {
   max-width: 900px;
@@ -128,14 +128,14 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--trail-gold);
+  color: var(--trail-ray);
   margin-bottom: 0.5rem;
 }
 
 #description {
   font-size: 15px;
   line-height: 1.75;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   font-weight: 300;
   margin-bottom: 1.5rem;
 }
@@ -151,8 +151,8 @@
   padding: 4px 10px;
   border-radius: 20px;
   border: 1.5px solid #D0CCC6;
-  background: var(--trail-cream);
-  color: var(--trail-stone);
+  background: var(--trail-night);
+  color: var(--trail-fog);
 }
 
 #images {
@@ -307,20 +307,20 @@
 
 #last-edited {
   font-size: 11px;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   font-style: italic;
   margin-top: 0.5rem;
 }
 
 .info-card {
-  background: #252A3D;
+  background: var(--trail-cold);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 16px rgba(59,42,26,0.1);
 }
 .info-card-header {
-  background: var(--trail-pine);
-  color: var(--trail-bark);
+  background: var(--trail-shade);
+  color: var(--trail-cloud);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -336,17 +336,17 @@
   font-size: 13px;
 }
 .info-row:last-child  { border-bottom: none; }
-.info-row-label       { color: var(--trail-bark); font-weight: 400; }
-.info-row-value       { color: var(--trail-bark); font-weight: 700; text-align: right; max-width: 60%; }
+.info-row-label       { color: var(--trail-cloud); font-weight: 400; }
+.info-row-value       { color: var(--trail-cloud); font-weight: 700; text-align: right; max-width: 60%; }
 
 .pip-row { display: flex; gap: 3px; }
 .pip     { width: 14px; height: 5px; border-radius: 2px; background: #E8E5E0; }
-.pip.on  { background: var(--trail-gold); }
+.pip.on  { background: var(--trail-ray); }
 
 .hiked-trail-box {
   grid-column: 1 / -1;
-  background: #252A3D;
-  border: 1px solid #E0DDD8;
+  background: var(--trail-cold);
+  border: 1px solid var(--trail-bright);
   border-radius: 10px;
   padding: 1rem;
   margin-top: 0.5rem;
@@ -359,8 +359,8 @@
   align-items: center;
   gap: 6px;
   padding: 10px 18px;
-  background: var(--trail-pine);
-  color: var(--trail-gold);
+  background: var(--trail-shade);
+  color: var(--trail-ray);
   border: none;
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
@@ -385,13 +385,13 @@
 }
 
 .hiked-trail-btn.completed {
-  background: var(--trail-gold);
-  color: #252A3D;
+  background: var(--trail-ray);
+  color: var(--trail-cold);
 }
 
 .hiked-trail-help {
   font-size: 12px;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   margin-top: 0.5rem;
 }
 
@@ -490,7 +490,7 @@
 }
 
 
-.comment-btn.mod-delete { color: #C4563A; }
+.comment-btn.mod-delete { color: var(--trail-ray); }
 .comment-btn.mod-delete:hover { color: #a03030; }
 
 .comments-section {
@@ -501,14 +501,14 @@
 .comments-section h3 {
   font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
-  color: var(--trail-bark);
+  color: var(--trail-cloud);
   font-weight: 600;
   margin-bottom: 1rem;
 }
 
 .comment-item {
-  background: #252A3D;
-  border: 1px solid #E0DDD8;
+  background: var(--trail-cold);
+  border: 1px solid var(--trail-bright);
   border-radius: 8px;
   padding: 0.85rem 1rem;
   margin-bottom: 0.6rem;
@@ -521,14 +521,14 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   text-transform: uppercase;
   margin-bottom: 4px;
 }
 .comment-edited-badge {
   font-size: 9px;
-  background: var(--trail-cream);
-  color: var(--trail-stone);
+  background: var(--trail-night);
+  color: var(--trail-fog);
   border: 1px solid #D0CCC6;
   border-radius: 10px;
   padding: 1px 6px;
@@ -536,7 +536,7 @@
   letter-spacing: 0.06em;
   font-weight: 700;
 }
-.comment-body    { font-size: 14px; color: var(--trail-bark); font-weight: 300; line-height: 1.6; }
+.comment-body    { font-size: 14px; color: var(--trail-cloud); font-weight: 300; line-height: 1.6; }
 .comment-actions { display: flex; gap: 8px; margin-top: 6px; }
 .comment-btn {
   font-family: 'Lato', sans-serif;
@@ -544,58 +544,58 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--trail-stone);
+  color: var(--trail-fog);
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
   transition: color 0.2s;
 }
-.comment-btn:hover        { color: var(--trail-pine); }
+.comment-btn:hover        { color: var(--trail-shade); }
 .comment-btn.delete:hover { color: #A03030; }
 
 .comment-edit-area {
   width: 100%;
   padding: 8px 10px;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 6px;
   font-family: 'Lato', sans-serif;
   font-size: 14px;
   font-weight: 300;
-  color: var(--trail-bark);
-  background: var(--trail-cream);
+  color: var(--trail-cloud);
+  background: var(--trail-night);
   resize: vertical;
   outline: none;
   margin-top: 6px;
 }
-.comment-edit-area:focus { border-color: var(--trail-pine); }
+.comment-edit-area:focus { border-color: var(--trail-shade); }
 
 #comment-form    { margin-top: 1rem; }
 #comment-input {
   display: block;
   width: 100%;
   padding: 10px 12px;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
   font-size: 14px;
   font-weight: 300;
-  color: var(--trail-bark);
-  background: var(--trail-cream);
+  color: var(--trail-cloud);
+  background: var(--trail-night);
   resize: vertical;
   outline: none;
   margin-bottom: 0.5rem;
   transition: border-color 0.2s;
 }
-#comment-input:focus { border-color: var(--trail-pine); background: #252A3D; }
+#comment-input:focus { border-color: var(--trail-shade); background: var(--trail-cold); }
 
 #comment-submit {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 10px 20px;
-  background: var(--trail-pine);
-  color: #252A3D;
+  background: var(--trail-shade);
+  color: var(--trail-cold);
   border: none;
   border-radius: 8px;
   font-family: 'Lato', sans-serif;
@@ -608,15 +608,15 @@
 }
 #comment-submit:hover { background: #1e3a0d; }
 
-#comment-login { font-size: 13px; color: var(--trail-stone); margin-top: 0.75rem; }
-#comment-login a { color: var(--trail-pine); font-weight: 700; text-decoration: underline; cursor: pointer; }
+#comment-login { font-size: 13px; color: var(--trail-fog); margin-top: 0.75rem; }
+#comment-login a { color: var(--trail-shade); font-weight: 700; text-decoration: underline; cursor: pointer; }
 
 .trail-map {
   width: 100%;
   aspect-ratio: 1;
   border-radius: 8px;
   overflow: hidden;
-  border: 1.5px solid #E0DDD8;
+  border: 1.5px solid var(--trail-bright);
 }
 
 .info-row-value,
@@ -627,7 +627,7 @@
 .trail-weather {
   display: flex;
   flex-direction: column;
-  background: #1C1F2E;
+  background: var(--trail-void);
   border-radius: 10px;
   overflow: hidden;
   margin: 0.75rem 1rem;
@@ -646,11 +646,11 @@
 }
 .weather-row:last-child { border-bottom: none; }
 
-.weather-day  { color: var(--trail-stone); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 10px; }
+.weather-day  { color: var(--trail-fog); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 10px; }
 .weather-icon { font-size: 1rem; text-align: center; }
 .weather-temps { display: flex; gap: 6px; align-items: center; flex-direction: row; }
-.weather-temps b    { color: var(--trail-bark); font-weight: 700; font-size: 11px; }
-.weather-temps span { color: var(--trail-stone); font-size: 10px; }
+.weather-temps b    { color: var(--trail-cloud); font-weight: 700; font-size: 11px; }
+.weather-temps span { color: var(--trail-fog); font-size: 10px; }
 .weather-rain { color: #5B8DB8; font-size: 10px; text-align: right; min-height: 1em; }
 
 

@@ -98,7 +98,7 @@
   <footer class="home-footer">
     &copy; 2026 Great Outdoors &mdash; Pacific Northwest Trail Guide
     <div class="photo-credit">
-      Theme painting based on <a href="https://www.flickr.com/photos/nosliwmit/53349794535/in/album-72177720313148908" target="_blank" rel="noopener" style="color:var(--trail-gold)">a photo by Tim Wilson</a>
+      Theme painting based on <a href="https://www.flickr.com/photos/nosliwmit/53349794535/in/album-72177720313148908" target="_blank" rel="noopener" style="color:var(--trail-ray)">a photo by Tim Wilson</a>
     </div>
   </footer>
 
@@ -183,7 +183,7 @@
         // Render cards
         grid.innerHTML = "";
         if (snap.empty) {
-          grid.innerHTML = `<p style="color:var(--trail-stone);font-size:14px;">No trails yet — be the first to add one!</p>`;
+          grid.innerHTML = `<p style="color:var(--trail-fog);font-size:14px;">No trails yet — be the first to add one!</p>`;
           return;
         }
         snap.forEach(d => {
@@ -191,7 +191,7 @@
         });
 
       } catch (err) {
-        grid.innerHTML = `<p style="color:var(--trail-stone);font-size:14px;">Couldn't load trails right now.</p>`;
+        grid.innerHTML = `<p style="color:var(--trail-fog);font-size:14px;">Couldn't load trails right now.</p>`;
         console.error(err);
       }
     }

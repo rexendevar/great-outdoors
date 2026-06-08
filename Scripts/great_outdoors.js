@@ -454,7 +454,7 @@ onAuthStateChanged(auth, async (user) => {
       document.querySelector(".profile-section").style.display = "none";
       const msg = document.createElement("p");
       msg.textContent = "Your account has been banned. You cannot edit your profile.";
-      msg.style.cssText = "color:var(--trail-gold);font-size:13px;margin-bottom:1rem;";
+      msg.style.cssText = "color:var(--trail-ray);font-size:13px;margin-bottom:1rem;";
       document.querySelector(".profile-section").insertAdjacentElement("afterend", msg);
     }
     if (userDoc.exists()) {
