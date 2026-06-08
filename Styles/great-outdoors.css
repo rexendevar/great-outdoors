@@ -38,6 +38,11 @@
 
   --trail-ray:       #C4563A;
   --trail-ray-rgb:   196, 86, 58;
+
+  --black-rgb:       0, 0, 0;
+  --black:           #000;
+  --white-rgb:       255, 255, 255;
+  --white:           #fff;
 }
 
 /* ── Reset ── */
