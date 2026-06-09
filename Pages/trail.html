@@ -785,7 +785,7 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
   usernameLink.addEventListener("mouseover", () => usernameLink.style.textDecoration = "underline");
   usernameLink.addEventListener("mouseout", () => usernameLink.style.textDecoration = "none");
 
-  const replyBanned = banMap.get(reply.uid);
+  const replyBanned = banMap?.get?.(reply.uid) ?? false;
 
   meta.appendChild(usernameLink);
 
