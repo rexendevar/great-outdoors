@@ -567,14 +567,13 @@
       };
     }
 
-function renderComment(c, user, commentsDiv, isMod = false, commentBanned = false, replies = [], allReplies = []) {
+function renderComment(c, user, commentsDiv, isMod = false, commentBanned = false, replies = [], allReplies = [], banMap = {}) {
   const date = c.created_at?.toDate().toLocaleDateString() ?? "just now";
 
   const div = document.createElement("div");
   div.className = "comment-item";
   div.id = `comment-${c.id}`;
 
-  // Avatar
   const avatar = document.createElement("div");
   avatar.className = "comment-avatar";
 
@@ -629,13 +628,15 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
   body.className = "comment-body";
   body.textContent = c.contents;
 
-  commentInner.appendChild(meta);
-  commentInner.appendChild(body);
-
   const actions = document.createElement("div");
   actions.className = "comment-actions";
 
-  // Reply button
+  const replyContainer = document.createElement("div");
+  replyContainer.className = "reply-container";
+  if (!replies.length) {
+    replyContainer.style = "border-left: none";
+  }
+
   const replyBtn = document.createElement("button");
   replyBtn.className = "comment-btn reply";
   replyBtn.textContent = "Reply";
@@ -646,20 +647,21 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
       return;
     }
 
-    showReplyForm(c, user, commentInner);
+    showReplyForm(c, user, commentInner, replyContainer, isMod);
   });
 
   actions.appendChild(replyBtn);
 
-  // Owner edit/delete buttons
   if (user && user.uid === c.uid) {
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "comment-btn delete";
     deleteBtn.textContent = "Delete";
 
     deleteBtn.addEventListener("click", async () => {
+      if (!confirm(`Delete your comment?`)) return;
       await deleteDoc(doc(db, "comments", c.id));
       div.remove();
+      replyContainer.remove();
     });
 
     const editBtn = document.createElement("button");
@@ -686,9 +688,11 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
           edited: true
         });
 
+        c.contents = newText;
+        c.edited = true;
         body.textContent = newText;
 
-        if (!meta.querySelector(".comment-edited-badge")) {
+        if (![...meta.querySelectorAll(".comment-edited-badge")].some(b => b.textContent === "edited")) {
           const badge = document.createElement("span");
           badge.className = "comment-edited-badge";
           badge.textContent = "edited";
@@ -716,40 +720,35 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
     actions.appendChild(editBtn);
   }
 
-
-  // Moderator delete button
   if (isMod && (!user || user.uid !== c.uid)) {
     const modDelete = document.createElement("button");
-    modDelete.className   = "comment-btn mod-delete";
+    modDelete.className = "comment-btn mod-delete";
     modDelete.textContent = "Delete";
     modDelete.addEventListener("click", async () => {
       if (!confirm(`Delete this comment by ${c.username ?? c.email}?`)) return;
       await deleteDoc(doc(db, "comments", c.id));
       div.remove();
+      replyContainer.remove();
     });
     actions.appendChild(modDelete);
   }
 
+  commentInner.appendChild(meta);
+  commentInner.appendChild(body);
   commentInner.appendChild(actions);
 
   div.appendChild(avatar);
   div.appendChild(commentInner);
   commentsDiv.appendChild(div);
 
-  // Render replies underneath original comment
-  if (replies.length > 0) {
-    const replyContainer = document.createElement("div");
-    replyContainer.className = "reply-container";
+  replies.forEach(reply => {
+    renderReply(reply, user, replyContainer, isMod, allReplies, banMap);
+  });
 
-    replies.forEach(reply => {
-  renderReply(reply, user, replyContainer, isMod, allReplies);
-});
-
-    commentsDiv.appendChild(replyContainer);
-  }
+  commentsDiv.appendChild(replyContainer);
 }
 
-function renderReply(reply, user, replyContainer, isMod = false, allReplies = []) {
+function renderReply(reply, user, replyContainer, isMod = false, allReplies = [], banMap) {
   const date = reply.created_at?.toDate().toLocaleDateString() ?? "just now";
 
   const replyDiv = document.createElement("div");
@@ -786,7 +785,19 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
   usernameLink.addEventListener("mouseover", () => usernameLink.style.textDecoration = "underline");
   usernameLink.addEventListener("mouseout", () => usernameLink.style.textDecoration = "none");
 
+  const replyBanned = banMap?.get?.(reply.uid) ?? false;
+
   meta.appendChild(usernameLink);
+
+  if (replyBanned) {
+    const bannedSpan = document.createElement("span");
+    bannedSpan.className = "comment-edited-badge";
+    bannedSpan.textContent = "banned";
+    bannedSpan.style.borderColor = "var(--trail-ray)";
+    bannedSpan.style.color = "var(--trail-ray)";
+    meta.appendChild(bannedSpan);
+  }
+
   meta.appendChild(document.createTextNode(` · ${date}`));
 
   if (reply.edited) {
@@ -803,7 +814,17 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
   const actions = document.createElement("div");
   actions.className = "comment-actions";
 
-  // Reply button for replying to a reply
+  const nestedContainer = document.createElement("div");
+  nestedContainer.className = "reply-container nested-reply-container";
+
+  const nestedReplies = allReplies.filter(
+    r => r.parent_id === reply.id
+  );
+
+  if (nestedReplies.length === 0) {
+    nestedContainer.style.display = "none";
+  }
+
   const replyBtn = document.createElement("button");
   replyBtn.className = "comment-btn reply";
   replyBtn.textContent = "Reply";
@@ -814,12 +835,11 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
       return;
     }
 
-    showReplyForm(reply, user, replyInner);
+    showReplyForm(reply, user, replyInner, nestedContainer, isMod);
   });
 
   actions.appendChild(replyBtn);
 
-  // Edit/delete buttons for the owner of the reply
   if (user && user.uid === reply.uid) {
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "comment-btn delete";
@@ -827,9 +847,12 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
 
     deleteBtn.addEventListener("click", async () => {
       if (!confirm("Delete your reply?")) return;
-
       await deleteDoc(doc(db, "comments", reply.id));
       replyDiv.remove();
+      nestedContainer.remove();
+      if (!replyContainer.querySelector(".reply-item")) {
+        replyContainer.style.display = "none";
+      }
     });
 
     const editBtn = document.createElement("button");
@@ -870,40 +893,29 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
         reply.edited = true;
         body.textContent = newText;
 
-        if (!meta.querySelector(".comment-edited-badge")) {
+        if (![...meta.querySelectorAll(".comment-edited-badge")].some(b => b.textContent === "edited")) {
           const badge = document.createElement("span");
           badge.className = "comment-edited-badge";
           badge.textContent = "edited";
           meta.appendChild(badge);
         }
 
-        replyInner.innerHTML = "";
-        replyInner.appendChild(meta);
-        replyInner.appendChild(body);
-        replyInner.appendChild(actions);
+        replyInner.replaceChildren(meta, body, actions);
       });
 
       cancelBtn.addEventListener("click", () => {
-        replyInner.innerHTML = "";
-        replyInner.appendChild(meta);
-        replyInner.appendChild(body);
-        replyInner.appendChild(actions);
+        replyInner.replaceChildren(meta, body, actions);
       });
 
       editActions.appendChild(saveBtn);
       editActions.appendChild(cancelBtn);
-
-      replyInner.innerHTML = "";
-      replyInner.appendChild(meta);
-      replyInner.appendChild(input);
-      replyInner.appendChild(editActions);
+      replyInner.replaceChildren(meta, input, editActions);
     });
 
     actions.appendChild(deleteBtn);
     actions.appendChild(editBtn);
   }
 
-  // Moderator delete
   if (isMod && (!user || user.uid !== reply.uid)) {
     const modDelete = document.createElement("button");
     modDelete.className = "comment-btn mod-delete";
@@ -911,9 +923,12 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
 
     modDelete.addEventListener("click", async () => {
       if (!confirm(`Delete this reply by ${reply.username ?? reply.email}?`)) return;
-
       await deleteDoc(doc(db, "comments", reply.id));
       replyDiv.remove();
+      nestedContainer.remove();
+      if (!targetReplyContainer.querySelector(".reply-item")) {
+        targetReplyContainer.style.display = "none";
+      }
     });
 
     actions.appendChild(modDelete);
@@ -927,23 +942,23 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
   replyDiv.appendChild(replyInner);
   replyContainer.appendChild(replyDiv);
 
-  // Replies under this reply
-  const nestedReplies = allReplies.filter(r => r.parent_id === reply.id);
-
-  if (nestedReplies.length > 0) {
-    const nestedContainer = document.createElement("div");
-    nestedContainer.className = "reply-container nested-reply-container";
-
-    nestedReplies.forEach(nestedReply => {
-      renderReply(nestedReply, user, nestedContainer, isMod, allReplies);
-    });
-
+  nestedReplies.forEach(nestedReply => {
+    renderReply(
+      nestedReply,
+      user,
+      nestedContainer,
+      isMod,
+      allReplies,
+      banMap
+    );
+  });
+  if (nestedReplies.length) {
     replyContainer.appendChild(nestedContainer);
   }
 }
 
-function showReplyForm(parentComment, user, parentContainer) {
-  const existingForm = parentContainer.querySelector(".reply-form");
+function showReplyForm(parentComment, user, formParent, targetReplyContainer, isMod = false) {
+  const existingForm = formParent.querySelector(":scope > .reply-form");
 
   if (existingForm) {
     existingForm.remove();
@@ -973,12 +988,15 @@ function showReplyForm(parentComment, user, parentContainer) {
       return;
     }
 
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Posting…";
+
     try {
       const userSnap = await getDoc(doc(db, "users", user.uid));
       const username = userSnap.exists() ? userSnap.data().username : user.email;
       const avatar = userSnap.exists() ? userSnap.data().avatar ?? null : null;
 
-      await addDoc(collection(db, "comments"), {
+      const ref = await addDoc(collection(db, "comments"), {
         trail_id: id,
         uid: user.uid,
         email: user.email,
@@ -986,17 +1004,39 @@ function showReplyForm(parentComment, user, parentContainer) {
         avatar: avatar,
         contents: contents,
         created_at: serverTimestamp(),
-
         parent_id: parentComment.id,
         parent_uid: parentComment.uid,
         parent_username: parentComment.username ?? parentComment.email
       });
 
-      window.location.reload();
+      const newReply = {
+        id: ref.id,
+        uid: user.uid,
+        email: user.email,
+        username: username,
+        avatar: avatar,
+        contents: contents,
+        edited: false,
+        created_at: { toDate: () => new Date() },
+        parent_id: parentComment.id,
+        parent_uid: parentComment.uid,
+        parent_username: parentComment.username ?? parentComment.email
+      };
+
+      if (!targetReplyContainer.parentNode) {
+        formParent.parentNode.parentNode.appendChild(targetReplyContainer);
+      }
+
+      targetReplyContainer.style.display = "";
+      renderReply(newReply, user, targetReplyContainer, isMod, []);
+      replyForm.remove();
+      targetReplyContainer.style = "border-left: 2px solid var(--trail-fog)";
 
     } catch (error) {
       console.error("Error posting reply:", error);
       alert("Could not post reply. Please try again.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Post Reply";
     }
   });
 
@@ -1004,7 +1044,8 @@ function showReplyForm(parentComment, user, parentContainer) {
     replyForm.remove();
   });
 
-  parentContainer.appendChild(replyForm);
+  formParent.appendChild(replyForm);
+  input.focus();
 }
     function renderCommentForm(user, db, trailId, commentsDiv, q, isBanned) {
       if (user && !isBanned) {
@@ -1125,8 +1166,15 @@ function showReplyForm(parentComment, user, parentContainer) {
         const parentComments = commentDataList.filter(c => !c.parent_id);
         const replyComments = commentDataList.filter(c => c.parent_id);
 
-        const bannedStatuses = await Promise.all(
-          parentComments.map(c => isUserBanned(c.uid))
+        // const bannedStatuses = await Promise.all(
+        //   parentComments.map(c => isUserBanned(c.uid))
+        // );
+
+        const banMap = new Map();
+        await Promise.all(
+          commentDataList.map(async c => {
+            banMap.set(c.uid, await isUserBanned(c.uid));
+          })
         );
 
         parentComments.forEach((c, i) => {
@@ -1137,9 +1185,10 @@ function showReplyForm(parentComment, user, parentContainer) {
           user,
           commentsDiv,
           isMod,
-          bannedStatuses[i],
+          banMap.get(c.uid),
           repliesForComment,
-          replyComments
+          replyComments,
+          banMap
         );
         });
       });
