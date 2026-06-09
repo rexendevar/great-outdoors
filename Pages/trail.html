@@ -658,6 +658,7 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
     deleteBtn.textContent = "Delete";
 
     deleteBtn.addEventListener("click", async () => {
+      if (!confirm(`Delete your comment?`)) return;
       await deleteDoc(doc(db, "comments", c.id));
       div.remove();
       replyContainer.remove();
