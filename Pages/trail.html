@@ -803,8 +803,13 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
 
   const nestedContainer = document.createElement("div");
   nestedContainer.className = "reply-container nested-reply-container";
-  if (!allReplies.length) {
-    nestedContainer.style = "border-left: none";
+
+  const nestedReplies = allReplies.filter(
+    r => r.parent_id === reply.id
+  );
+
+  if (nestedReplies.length === 0) {
+    nestedContainer.style.display = "none";
   }
 
   const replyBtn = document.createElement("button");
@@ -832,6 +837,9 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
       await deleteDoc(doc(db, "comments", reply.id));
       replyDiv.remove();
       nestedContainer.remove();
+      if (!replyContainer.querySelector(".reply-item")) {
+        replyContainer.style.display = "none";
+      }
     });
 
     const editBtn = document.createElement("button");
@@ -905,6 +913,9 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
       await deleteDoc(doc(db, "comments", reply.id));
       replyDiv.remove();
       nestedContainer.remove();
+      if (!targetReplyContainer.querySelector(".reply-item")) {
+        targetReplyContainer.style.display = "none";
+      }
     });
 
     actions.appendChild(modDelete);
@@ -918,15 +929,18 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
   replyDiv.appendChild(replyInner);
   replyContainer.appendChild(replyDiv);
 
-  const nestedReplies = allReplies.filter(r => r.parent_id === reply.id);
   nestedReplies.forEach(nestedReply => {
-    renderReply(nestedReply, user, nestedContainer, isMod, allReplies);
+    renderReply(
+      nestedReply,
+      user,
+      nestedContainer,
+      isMod,
+      allReplies
+    );
   });
-  if (!allReplies.length) {
-    nestedContainer.style = "border-left: none";
+  if (nestedReplies.length) {
+    replyContainer.appendChild(nestedContainer);
   }
-
-  replyContainer.appendChild(nestedContainer);
 }
 
 function showReplyForm(parentComment, user, formParent, targetReplyContainer, isMod = false) {
@@ -995,6 +1009,11 @@ function showReplyForm(parentComment, user, formParent, targetReplyContainer, is
         parent_username: parentComment.username ?? parentComment.email
       };
 
+      if (!targetReplyContainer.parentNode) {
+        formParent.parentNode.parentNode.appendChild(targetReplyContainer);
+      }
+
+      targetReplyContainer.style.display = "";
       renderReply(newReply, user, targetReplyContainer, isMod, []);
       replyForm.remove();
       targetReplyContainer.style = "border-left: 2px solid var(--trail-fog)";
