@@ -646,7 +646,7 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
       return;
     }
 
-    showReplyForm(c, user, commentInner);
+    showReplyForm(c, user, commentInner, commentsDiv);
   });
 
   actions.appendChild(replyBtn);
@@ -742,14 +742,14 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
     replyContainer.className = "reply-container";
 
     replies.forEach(reply => {
-  renderReply(reply, user, replyContainer, isMod, allReplies);
+  renderReply(reply, user, replyContainer, isMod, allReplies, replyContainer);
 });
 
     commentsDiv.appendChild(replyContainer);
   }
 }
 
-function renderReply(reply, user, replyContainer, isMod = false, allReplies = []) {
+function renderReply(reply, user, replyContainer, isMod = false, allReplies = [], commentsDiv) {
   const date = reply.created_at?.toDate().toLocaleDateString() ?? "just now";
 
   const replyDiv = document.createElement("div");
@@ -814,7 +814,7 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
       return;
     }
 
-    showReplyForm(reply, user, replyInner);
+    showReplyForm(reply, user, replyInner, replyDiv);
   });
 
   actions.appendChild(replyBtn);
@@ -935,14 +935,14 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
     nestedContainer.className = "reply-container nested-reply-container";
 
     nestedReplies.forEach(nestedReply => {
-      renderReply(nestedReply, user, nestedContainer, isMod, allReplies);
+      renderReply(nestedReply, user, nestedContainer, isMod, allReplies, nestedContainer);
     });
 
     replyContainer.appendChild(nestedContainer);
   }
 }
 
-function showReplyForm(parentComment, user, parentContainer) {
+function showReplyForm(parentComment, user, parentContainer, commentsDiv) {
   const existingForm = parentContainer.querySelector(".reply-form");
 
   if (existingForm) {
@@ -978,7 +978,7 @@ function showReplyForm(parentComment, user, parentContainer) {
       const username = userSnap.exists() ? userSnap.data().username : user.email;
       const avatar = userSnap.exists() ? userSnap.data().avatar ?? null : null;
 
-      await addDoc(collection(db, "comments"), {
+      const ref = await addDoc(collection(db, "comments"), {
         trail_id: id,
         uid: user.uid,
         email: user.email,
@@ -992,7 +992,40 @@ function showReplyForm(parentComment, user, parentContainer) {
         parent_username: parentComment.username ?? parentComment.email
       });
 
-      window.location.reload();
+      // const ref = await addDoc(collection(db, "comments"), {
+      //       trail_id:   trailId,
+      //       uid:        user.uid,
+      //       email:      user.email,
+      //       username:   username,
+      //       avatar:     avatar,
+      //       contents:   contents,
+      //       created_at: serverTimestamp(),
+      //     });
+
+          // document.getElementById("comment-input").value = "";
+          // Build a fake doc snapshot to pass to renderComment
+      const fakeDoc = {
+        id:         ref.id,
+        uid:        user.uid,
+        email:      user.email,
+        username:   username,
+        avatar:     avatar,
+        contents:   contents,
+        edited:     false,
+        created_at: { toDate: () => new Date() },
+
+        parent_id: parentComment.id,
+        parent_uid: parentComment.uid,
+        parent_username: parentComment.username ?? parentComment.email
+      };
+
+      const replyContainer = document.createElement("div");
+      replyContainer.className = "reply-container";
+
+      renderReply(fakeDoc, user, commentsDiv, false, [], commentsDiv)
+      parentContainer.appendChild(replyContainer);
+
+      // window.location.reload();
 
     } catch (error) {
       console.error("Error posting reply:", error);
