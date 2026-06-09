@@ -567,7 +567,7 @@
       };
     }
 
-function renderComment(c, user, commentsDiv, isMod = false, commentBanned = false, replies = [], allReplies = []) {
+function renderComment(c, user, commentsDiv, isMod = false, commentBanned = false, replies = [], allReplies = [], banMap = {}) {
   const date = c.created_at?.toDate().toLocaleDateString() ?? "just now";
 
   const div = document.createElement("div");
@@ -742,13 +742,13 @@ function renderComment(c, user, commentsDiv, isMod = false, commentBanned = fals
   commentsDiv.appendChild(div);
 
   replies.forEach(reply => {
-    renderReply(reply, user, replyContainer, isMod, allReplies);
+    renderReply(reply, user, replyContainer, isMod, allReplies, banMap);
   });
 
   commentsDiv.appendChild(replyContainer);
 }
 
-function renderReply(reply, user, replyContainer, isMod = false, allReplies = []) {
+function renderReply(reply, user, replyContainer, isMod = false, allReplies = [], banMap) {
   const date = reply.created_at?.toDate().toLocaleDateString() ?? "just now";
 
   const replyDiv = document.createElement("div");
@@ -785,7 +785,19 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
   usernameLink.addEventListener("mouseover", () => usernameLink.style.textDecoration = "underline");
   usernameLink.addEventListener("mouseout", () => usernameLink.style.textDecoration = "none");
 
+  const replyBanned = banMap.get(reply.uid);
+
   meta.appendChild(usernameLink);
+
+  if (replyBanned) {
+    const bannedSpan = document.createElement("span");
+    bannedSpan.className = "comment-edited-badge";
+    bannedSpan.textContent = "banned";
+    bannedSpan.style.borderColor = "var(--trail-ray)";
+    bannedSpan.style.color = "var(--trail-ray)";
+    meta.appendChild(bannedSpan);
+  }
+
   meta.appendChild(document.createTextNode(` · ${date}`));
 
   if (reply.edited) {
@@ -936,7 +948,8 @@ function renderReply(reply, user, replyContainer, isMod = false, allReplies = []
       user,
       nestedContainer,
       isMod,
-      allReplies
+      allReplies,
+      banMap
     );
   });
   if (nestedReplies.length) {
@@ -1153,8 +1166,15 @@ function showReplyForm(parentComment, user, formParent, targetReplyContainer, is
         const parentComments = commentDataList.filter(c => !c.parent_id);
         const replyComments = commentDataList.filter(c => c.parent_id);
 
-        const bannedStatuses = await Promise.all(
-          parentComments.map(c => isUserBanned(c.uid))
+        // const bannedStatuses = await Promise.all(
+        //   parentComments.map(c => isUserBanned(c.uid))
+        // );
+
+        const banMap = new Map();
+        await Promise.all(
+          commentDataList.map(async c => {
+            banMap.set(c.uid, await isUserBanned(c.uid));
+          })
         );
 
         parentComments.forEach((c, i) => {
@@ -1165,9 +1185,10 @@ function showReplyForm(parentComment, user, formParent, targetReplyContainer, is
           user,
           commentsDiv,
           isMod,
-          bannedStatuses[i],
+          banMap.get(c.uid),
           repliesForComment,
-          replyComments
+          replyComments,
+          banMap
         );
         });
       });
